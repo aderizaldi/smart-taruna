@@ -19,6 +19,7 @@ return new class extends Migration
             $table->enum('scoring_type', ['boolean', 'point'])->default('boolean');
             $table->integer('wrong_answer_point')->nullable(); //if scoring type is boolean
             $table->integer('right_answer_point')->nullable(); //if scoring type is boolean
+            $table->integer('passing_score')->nullable();
             $table->timestamps();
         });
     }
