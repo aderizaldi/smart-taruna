@@ -4,13 +4,18 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
-class AnswerChoice extends Model
+class UserExam extends Model
 {
     protected $guarded = ['id'];
 
-    public function question()
+    public function user()
     {
-        return $this->belongsTo(Question::class);
+        return $this->belongsTo(User::class);
+    }
+
+    public function exam()
+    {
+        return $this->belongsTo(Exam::class);
     }
 
     public function user_answers()

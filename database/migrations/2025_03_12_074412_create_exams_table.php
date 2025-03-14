@@ -13,6 +13,7 @@ return new class extends Migration
     {
         Schema::create('exams', function (Blueprint $table) {
             $table->id();
+            $table->foreignIdFor(\App\Models\User::class);
             $table->foreignIdFor(\App\Models\Type::class);
             $table->string('name');
             $table->text('description')->nullable();

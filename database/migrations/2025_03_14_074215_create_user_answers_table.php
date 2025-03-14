@@ -11,10 +11,12 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('package_exams', function (Blueprint $table) {
+        Schema::create('user_answers', function (Blueprint $table) {
             $table->id();
-            $table->foreignIdFor(\App\Models\Package::class)->cascadeOnDelete();
-            $table->foreignIdFor(\App\Models\Exam::class)->cascadeOnDelete();
+            $table->foreignIdFor(\App\Models\UserExam::class)->cascadeOnDelete();
+            $table->foreignIdFor(\App\Models\Question::class)->cascadeOnDelete();
+            $table->integer('order_number');
+            $table->foreignIdFor(\App\Models\AnswerChoice::class)->nullable();
             $table->timestamps();
         });
     }
@@ -24,6 +26,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('package_exams');
+        Schema::dropIfExists('user_answers');
     }
 };

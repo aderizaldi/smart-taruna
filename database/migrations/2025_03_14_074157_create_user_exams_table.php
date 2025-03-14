@@ -11,10 +11,12 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('package_exams', function (Blueprint $table) {
+        Schema::create('user_exams', function (Blueprint $table) {
             $table->id();
-            $table->foreignIdFor(\App\Models\Package::class)->cascadeOnDelete();
+            $table->foreignIdFor(\App\Models\User::class)->cascadeOnDelete();
             $table->foreignIdFor(\App\Models\Exam::class)->cascadeOnDelete();
+            $table->enum('status', ['in_progress', 'completed'])->default('in_progress');
+            $table->integer('score')->nullable();
             $table->timestamps();
         });
     }
@@ -24,6 +26,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('package_exams');
+        Schema::dropIfExists('user_exams');
     }
 };

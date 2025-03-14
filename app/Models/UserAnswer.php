@@ -4,7 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
-class AnswerChoice extends Model
+class UserAnswer extends Model
 {
     protected $guarded = ['id'];
 
@@ -13,8 +13,13 @@ class AnswerChoice extends Model
         return $this->belongsTo(Question::class);
     }
 
-    public function user_answers()
+    public function answerChoice()
     {
-        return $this->hasMany(UserAnswer::class);
+        return $this->belongsTo(AnswerChoice::class);
+    }
+
+    public function user_exam()
+    {
+        return $this->belongsTo(UserExam::class);
     }
 }
