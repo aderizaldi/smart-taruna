@@ -16,7 +16,7 @@ return new class extends Migration
             $table->foreignIdFor(\App\Models\Question::class)->cascadeOnDelete();
             $table->text('choice_text')->nullable();
             $table->string('image')->nullable();
-            $table->boolean('is_correct')->nullable(); //if section type is boolean
+            $table->boolean('is_correct')->nullable(); //if section type is right_or_wrong
             $table->integer('point')->nullable(); //if section type is point
             $table->timestamps();
         });

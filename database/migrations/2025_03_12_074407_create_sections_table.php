@@ -16,9 +16,9 @@ return new class extends Migration
             $table->foreignIdFor(\App\Models\Type::class);
             $table->string('name');
             $table->text('description')->nullable();
-            $table->enum('scoring_type', ['boolean', 'point'])->default('boolean');
-            $table->integer('wrong_answer_point')->nullable(); //if scoring type is boolean
-            $table->integer('right_answer_point')->nullable(); //if scoring type is boolean
+            $table->enum('scoring_type', ['right_or_wrong', 'point'])->default('right_or_wrong');
+            $table->integer('wrong_answer_point')->nullable(); //if scoring type is right_or_wrong
+            $table->integer('right_answer_point')->nullable(); //if scoring type is right_or_wrong
             $table->integer('passing_score')->nullable();
             $table->timestamps();
         });
