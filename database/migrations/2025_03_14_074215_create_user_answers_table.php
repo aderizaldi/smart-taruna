@@ -17,6 +17,7 @@ return new class extends Migration
             $table->foreignIdFor(\App\Models\Question::class)->cascadeOnDelete();
             $table->integer('order_number');
             $table->foreignIdFor(\App\Models\AnswerChoice::class)->nullable();
+            $table->boolean('is_marked')->default(false);
             $table->timestamps();
         });
     }
