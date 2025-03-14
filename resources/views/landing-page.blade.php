@@ -5,12 +5,23 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-    <title>{{ $title ?? 'Laravel' }}</title>
-
+    <title>SMART TARUNA</title>
+    {{-- 
     <link rel="preconnect" href="https://fonts.bunny.net">
-    <link href="https://fonts.bunny.net/css?family=instrument-sans:400,500,600" rel="stylesheet" />
+    <link href="https://fonts.bunny.net/css?family=instrument-sans:400,500,600" rel="stylesheet" /> --}}
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+
 
     @vite(['resources/css/app.css', 'resources/js/app.js'])
+
+    <style>
+        body {
+            font-family: 'Poppins', sans-serif;
+        }
+    </style>
     {{-- @fluxAppearance --}}
 </head>
 
@@ -19,7 +30,7 @@
         <img src="{{ asset('assets/primamarta_logo.png') }}" alt="" width="150">
 
         <span class="flex items-center text-[#20327A] font-bold">Welcome!<flux:icon.user-circle variant="solid"
-                class="size-10 ms-3"></flux:icon.user-circle></span>
+                class="size-10 ms-2"></flux:icon.user-circle></span>
     </flux:container>
 
     <flux:container class="lg:flex justify-between items-center mt-10 w-full">
@@ -32,7 +43,7 @@
                     expedita eum quo tempore, consectetur vel nobis unde!</p>
             </div>
             <flux:button icon-trailing="arrow-long-right"
-                class="rounded-lg w-30 bg-[#20327A]! text-white! hover:bg-[#4054A5]! font-bold!">
+                class="rounded-lg w-30 bg-[#20327A]! text-white! hover:bg-[#4054A5]! font-bold! border-none!">
                 Login
             </flux:button>
         </div>
