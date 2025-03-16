@@ -36,7 +36,7 @@
         </flux:container>
 
         <flux:container class="lg:flex justify-between items-center mt-10 w-full bg-cover bg-center"
-            style="background-image: url('{{ asset('assets/pulau_indonesia.png') }}');">
+            style="background-image: url('{{ asset('assets/indonesia.png') }}');">
             <div class="columns-md text-balance p-12">
                 <p class="text-[#20327A] text-6xl font-extrabold">SMART TARUNA</p>
                 <div class="lg:w-1/2 my-5">
@@ -56,128 +56,129 @@
             </div>
         </flux:container>
 
-        <flux:container class="flex justify-center mt-10 w-full bg-repeat md:bg-repeat-space"
-            style="background-image: url('{{ asset('assets/batik.png') }}');">
-            <flux:container class="bg-[#20327A]! mx-30! md:mx-50! text-white! py-6 rounded-full">
-                <div class="grid md:grid-cols-3 gap-3">
-                    <div class="flex flex-col items-center px-10">
-                        <div class="bg-[#6E7AA9] rounded-full p-2">
-                            <flux:icon.clipboard-document-list class="size-5"></flux:icon.clipboard-document-list>
+        <div class="bg-repeat-round bg-cover pt-1"
+            style="background-image: url('{{ asset('assets/Simple Shiny.svg') }}');">
+            <flux:container class="flex justify-center mt-10 w-full">
+                <flux:container class="bg-[#20327A]! mx-30! md:mx-50! text-white! py-6 rounded-full">
+                    <div class="grid md:grid-cols-3 gap-3">
+                        <div class="flex flex-col items-center px-10">
+                            <div class="bg-[#6E7AA9] rounded-full p-2">
+                                <flux:icon.clipboard-document-list class="size-5"></flux:icon.clipboard-document-list>
+                            </div>
+                            <p class="text-3xl font-bold mt-2 text-[#EC0E0F]">190+</p>
+                            <p class="text-center">Try Out Tersedia</p>
                         </div>
-                        <p class="text-3xl font-bold mt-2 text-[#EC0E0F]">190+</p>
-                        <p class="text-center">Try Out Tersedia</p>
+                        <div class="flex flex-col items-center px-10">
+                            <div class="bg-[#6E7AA9] rounded-full p-2">
+                                <flux:icon.academic-cap class="size-5"></flux:icon.academic-cap>
+                            </div>
+                            <p class="text-3xl font-bold mt-2 text-[#EC0E0F]">120K</p>
+                            <p class="text-center">Siswa Lulus Kedinasan & PNS</p>
+                        </div>
+                        <div class="flex flex-col items-center px-10">
+                            <div class="bg-[#6E7AA9] rounded-full p-2">
+                                <flux:icon.users class="size-5 bg-[#6E7AA9]"></flux:icon.users>
+                            </div>
+                            <p class="text-3xl font-bold mt-2 text-[#EC0E0F]">58</p>
+                            <p class="text-center">Siswa Mendaftar Setiap Tahunnya</p>
+                        </div>
                     </div>
-                    <div class="flex flex-col items-center px-10">
-                        <div class="bg-[#6E7AA9] rounded-full p-2">
-                            <flux:icon.academic-cap class="size-5"></flux:icon.academic-cap>
+                </flux:container>
+            </flux:container>
+
+            <p
+                class="text-[#20327A] text-2xl md:text-5xl font-semibold text-center mt-15 md:mt-25 underline underline-offset-[8px] md:underline-offset-[15px]">
+                Our Gallery
+            </p>
+
+            <div class="relative w-full max-w-5xl mx-auto mt-5 md:mt-15 flex justify-center items-center">
+                <flux:icon.chevron-left
+                    class="size-10 swiper-button-prev-custom text-[#20327A] me-3"></flux:icon.chevron-left>
+                <!-- Wrapper Swiper -->
+                <div class="swiper mySwiper">
+                    <div class="swiper-wrapper">
+                        <!-- Slide 1 -->
+                        <div class="swiper-slide">
+                            <img src="{{ asset('assets/1.png') }}" class="w-full rounded-lg" alt="Slide 1">
                         </div>
-                        <p class="text-3xl font-bold mt-2 text-[#EC0E0F]">120K</p>
-                        <p class="text-center">Siswa Lulus Kedinasan & PNS</p>
+                        <!-- Slide 2 -->
+                        <div class="swiper-slide">
+                            <img src="{{ asset('assets/2.png') }}" class="w-full rounded-lg" alt="Slide 2">
+                        </div>
+                        <!-- Slide 3 -->
+                        <div class="swiper-slide">
+                            <img src="{{ asset('assets/3.png') }}" class="w-full rounded-lg" alt="Slide 3">
+                        </div>
+                        <!-- Slide 4 -->
+                        <div class="swiper-slide">
+                            <img src="{{ asset('assets/4.png') }}" class="w-full rounded-lg" alt="Slide 4">
+                        </div>
+                        <!-- Slide 5 -->
+                        <div class="swiper-slide">
+                            <img src="{{ asset('assets/5.png') }}" class="w-full rounded-lg" alt="Slide 5">
+                        </div>
                     </div>
-                    <div class="flex flex-col items-center px-10">
-                        <div class="bg-[#6E7AA9] rounded-full p-2">
-                            <flux:icon.users class="size-5 bg-[#6E7AA9]"></flux:icon.users>
+                    <!-- Pagination -->
+                    <div class="swiper-pagination"></div>
+                </div>
+                <flux:icon.chevron-right
+                    class="size-10 swiper-button-next-custom text-[#20327A] ms-3"></flux:icon.chevron-right>
+            </div>
+
+            <flux:container class="mt-30 w-full relative">
+                <div class="grid md:grid-cols-3 gap-10 md:gap-60">
+                    <div class="flex flex-col items-start">
+                        <img src="{{ asset('assets/primamarta_logo.png') }}" alt="primamarta_logo_footer"
+                            width="200" class="object-fill">
+                        <div class="flex w-full items-center">
+                            <flux:icon.map-pin class="text-[#20327A]">
+                            </flux:icon.map-pin>
+                            <p class="text-[#20327A] text-base font-semibold">Jl.R.E. Martadinata No.158</p>
                         </div>
-                        <p class="text-3xl font-bold mt-2 text-[#EC0E0F]">58</p>
-                        <p class="text-center">Siswa Mendaftar Setiap Tahunnya</p>
+                    </div>
+                    <div class="flex flex-col items-start">
+                        <p class="font-bold text-xl text-[#20327A] mb-2">CONTACT US</p>
+                        <div class="flex md:justify-start mb-1 gap-1">
+                            <flux:icon.envelope class="text-[#20327A]">
+                            </flux:icon.envelope>
+                            <p class="text-[#20327A] text-base font-semibold">smarttaruna@gmail.com</p>
+                        </div>
+                        <div class="flex md:justify-start mb-1 gap-1">
+                            <flux:icon.phone class="text-[#20327A]">
+                            </flux:icon.phone>
+                            <p class="text-[#20327A] text-base font-semibold">+62 22 423 0000</p>
+                        </div>
+                    </div>
+                    <div class="flex flex-col items-start">
+                        <p class="font-bold text-xl text-[#20327A] mb-2">SOCIAL MEDIA</p>
+                        <div class="flex md:justify-start mb-1 gap-1">
+                            <flux:icon.instagram>
+                            </flux:icon.instagram>
+                            <p class="text-[#20327A] text-base font-semibold">smarttarunaeducation</p>
+                        </div>
+                        <div class="flex md:justify-start mb-1 gap-1">
+                            <flux:icon.x>
+                            </flux:icon.x>
+                            <p class="text-[#20327A] text-base font-semibold">smarttarunaedu</p>
+                        </div>
+                        <div class="flex md:justify-start mb-1 gap-1">
+                            <flux:icon.facebook>
+                            </flux:icon.facebook>
+                            <p class="text-[#20327A] text-base font-semibold">smarttarunaedu</p>
+                        </div>
+                        <div class="flex md:justify-start mb-1 gap-1">
+                            <flux:icon.youtube>
+                            </flux:icon.youtube>
+                            <p class="text-[#20327A] text-base font-semibold">smarttarunaedu</p>
+                        </div>
                     </div>
                 </div>
             </flux:container>
-        </flux:container>
 
-        <p
-            class="text-[#20327A] text-2xl md:text-5xl font-semibold text-center mt-15 md:mt-25 underline underline-offset-[8px]  md:underline-offset-[15px]">
-            Our Gallery
-        </p>
-
-        <div class="relative w-full max-w-5xl mx-auto mt-5 md:mt-15 flex justify-center items-center">
-            <flux:icon.chevron-left
-                class="size-10 swiper-button-prev-custom text-[#20327A] me-3"></flux:icon.chevron-left>
-            <!-- Wrapper Swiper -->
-            <div class="swiper mySwiper">
-                <div class="swiper-wrapper">
-                    <!-- Slide 1 -->
-                    <div class="swiper-slide">
-                        <img src="{{ asset('assets/1.png') }}" class="w-full rounded-lg" alt="Slide 1">
-                    </div>
-                    <!-- Slide 2 -->
-                    <div class="swiper-slide">
-                        <img src="{{ asset('assets/2.png') }}" class="w-full rounded-lg" alt="Slide 2">
-                    </div>
-                    <!-- Slide 3 -->
-                    <div class="swiper-slide">
-                        <img src="{{ asset('assets/3.png') }}" class="w-full rounded-lg" alt="Slide 3">
-                    </div>
-                    <!-- Slide 4 -->
-                    <div class="swiper-slide">
-                        <img src="{{ asset('assets/4.png') }}" class="w-full rounded-lg" alt="Slide 4">
-                    </div>
-                    <!-- Slide 5 -->
-                    <div class="swiper-slide">
-                        <img src="{{ asset('assets/5.png') }}" class="w-full rounded-lg" alt="Slide 5">
-                    </div>
-                </div>
-                <!-- Pagination -->
-                <div class="swiper-pagination"></div>
-            </div>
-            <flux:icon.chevron-right
-                class="size-10 swiper-button-next-custom text-[#20327A] ms-3"></flux:icon.chevron-right>
+            <flux:container class="h-20 flex justify-center items-center text-gray-400">
+                <p class="text-xs">© Ngoding House {{ date('Y') }}</p>
+            </flux:container>
         </div>
-
-        <flux:container class="mt-30 w-full bg-no-repeat"
-            style="background-image: url('{{ asset('assets/batik_footer_right.png') }}'), url('{{ asset('assets/batik_footer_left.png') }}'); background-position: right bottom, left bottom;">
-            <div class="grid md:grid-cols-3 gap-10 md:gap-60">
-                <div class="flex flex-col items-start">
-                    <img src="{{ asset('assets/primamarta_logo.png') }}" alt="primamarta_logo_footer" width="200"
-                        class="object-fill">
-                    <div class="flex w-full items-center">
-                        <flux:icon.map-pin class="text-[#20327A]">
-                        </flux:icon.map-pin>
-                        <p class="text-[#20327A] text-base font-semibold">Jl.R.E. Martadinata No.158</p>
-                    </div>
-                </div>
-                <div class="flex flex-col items-start">
-                    <p class="font-bold text-xl text-[#20327A] mb-2">CONTACT US</p>
-                    <div class="flex md:justify-start mb-1 gap-1">
-                        <flux:icon.envelope class="text-[#20327A]">
-                        </flux:icon.envelope>
-                        <p class="text-[#20327A] text-base font-semibold">smarttaruna@gmail.com</p>
-                    </div>
-                    <div class="flex md:justify-start mb-1 gap-1">
-                        <flux:icon.phone class="text-[#20327A]">
-                        </flux:icon.phone>
-                        <p class="text-[#20327A] text-base font-semibold">+62 22 423 0000</p>
-                    </div>
-                </div>
-                <div class="flex flex-col items-start">
-                    <p class="font-bold text-xl text-[#20327A] mb-2">SOCIAL MEDIA</p>
-                    <div class="flex md:justify-start mb-1 gap-1">
-                        <flux:icon.instagram>
-                        </flux:icon.instagram>
-                        <p class="text-[#20327A] text-base font-semibold">smarttarunaeducation</p>
-                    </div>
-                    <div class="flex md:justify-start mb-1 gap-1">
-                        <flux:icon.x>
-                        </flux:icon.x>
-                        <p class="text-[#20327A] text-base font-semibold">smarttarunaedu</p>
-                    </div>
-                    <div class="flex md:justify-start mb-1 gap-1">
-                        <flux:icon.facebook>
-                        </flux:icon.facebook>
-                        <p class="text-[#20327A] text-base font-semibold">smarttarunaedu</p>
-                    </div>
-                    <div class="flex md:justify-start mb-1 gap-1">
-                        <flux:icon.youtube>
-                        </flux:icon.youtube>
-                        <p class="text-[#20327A] text-base font-semibold">smarttarunaedu</p>
-                    </div>
-                </div>
-            </div>
-        </flux:container>
-
-        <flux:container class="h-20 flex justify-center items-center text-gray-400">
-            <p class="text-xs">© Ngoding House {{ date('Y') }}</p>
-        </flux:container>
 
         @fluxScripts
         <script src="https://cdn.jsdelivr.net/npm/swiper/swiper-bundle.min.js"></script>
