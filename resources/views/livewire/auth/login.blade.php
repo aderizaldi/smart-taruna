@@ -65,6 +65,9 @@ new #[Layout('components.layouts.auth')] class extends Component {
 }; ?>
 
 <div class="flex flex-col gap-6">
+
+    <flux:button icon-trailing="arrow-left" variant="subtle" :href="route('home')" wire:navigate />
+
     <x-auth-header :title="'LOGIN'" :description="'Enter your email and password below to log in'" />
 
     <!-- Session Status -->

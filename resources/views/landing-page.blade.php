@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
+<html lang="{{ str_replace('_', '-', app()->getLocale()) }}" class="dark">
 
 <head>
     <meta charset="utf-8" />
@@ -13,6 +13,7 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper/swiper-bundle.min.css">
 
     @vite(['resources/css/app.css', 'resources/js/app.js'])
+    @fluxAppearance
 
     <style>
         body {
@@ -131,43 +132,43 @@
                 <div class="flex flex-col items-start">
                     <img src="{{ asset('assets/primamarta_logo.png') }}" alt="primamarta_logo_footer" width="200"
                         class="object-fill">
-                    <div class="flex w-full items-center">
+                    <div class="flex w-full items-center gap-1">
                         <flux:icon.map-pin class="text-[#20327A]">
                         </flux:icon.map-pin>
                         <p class="text-[#20327A] text-base font-semibold">Jl.R.E. Martadinata No.158</p>
                     </div>
                 </div>
-                <div class="flex flex-col items-start">
+                <div class="flex flex-col items-start gap-y-1">
                     <p class="font-bold text-xl text-[#20327A] mb-2">CONTACT US</p>
-                    <div class="flex md:justify-start mb-1 gap-1">
+                    <div class="flex md:justify-start gap-1">
                         <flux:icon.envelope class="text-[#20327A]">
                         </flux:icon.envelope>
                         <p class="text-[#20327A] text-base font-semibold">smarttaruna@gmail.com</p>
                     </div>
-                    <div class="flex md:justify-start mb-1 gap-1">
+                    <div class="flex md:justify-start gap-1">
                         <flux:icon.phone class="text-[#20327A]">
                         </flux:icon.phone>
                         <p class="text-[#20327A] text-base font-semibold">+62 22 423 0000</p>
                     </div>
                 </div>
-                <div class="flex flex-col items-start">
+                <div class="flex flex-col items-start gap-y-1">
                     <p class="font-bold text-xl text-[#20327A] mb-2">SOCIAL MEDIA</p>
-                    <div class="flex md:justify-start mb-1 gap-1">
+                    <div class="flex md:justify-start gap-1">
                         <flux:icon.instagram>
                         </flux:icon.instagram>
                         <p class="text-[#20327A] text-base font-semibold">smarttarunaeducation</p>
                     </div>
-                    <div class="flex md:justify-start mb-1 gap-1">
+                    <div class="flex md:justify-start gap-1">
                         <flux:icon.x>
                         </flux:icon.x>
                         <p class="text-[#20327A] text-base font-semibold">smarttarunaedu</p>
                     </div>
-                    <div class="flex md:justify-start mb-1 gap-1">
+                    <div class="flex md:justify-start gap-1">
                         <flux:icon.facebook>
                         </flux:icon.facebook>
                         <p class="text-[#20327A] text-base font-semibold">smarttarunaedu</p>
                     </div>
-                    <div class="flex md:justify-start mb-1 gap-1">
+                    <div class="flex md:justify-start gap-1">
                         <flux:icon.youtube>
                         </flux:icon.youtube>
                         <p class="text-[#20327A] text-base font-semibold">smarttarunaedu</p>
