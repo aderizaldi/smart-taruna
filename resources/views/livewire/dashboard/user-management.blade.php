@@ -227,7 +227,7 @@ new class extends Component {
                     <flux:button variant="ghost">Batal</flux:button>
                 </flux:modal.close>
 
-                <flux:button type="submit" variant="danger">Hapus</flux:button>
+                <flux:button variant="danger" wire:click="delete">Hapus</flux:button>
             </div>
         </div>
     </flux:modal>
