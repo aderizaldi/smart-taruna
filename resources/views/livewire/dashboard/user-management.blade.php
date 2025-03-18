@@ -27,13 +27,13 @@ new class extends Component {
         $query = User::query();
 
         if ($this->search) {
-            $query
+            $query = $query
                 ->where(function ($q) {
                     $q->where('name', 'like', '%' . $this->search . '%')->orWhere('email', 'like', '%' . $this->search . '%');
-                })
-                ->where('id', '!=', auth()->user()->id)
-                ->latest();
+                });
         }
+
+        $query = $query->where('id', '!=', auth()->user()->id)->latest();
 
         return $query->paginate($this->perPage);
     }
