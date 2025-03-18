@@ -67,6 +67,7 @@ new class extends Component {
         $user->assignRole($this->role);
 
         $this->resetForm();
+        $this->dispatch('updated');
     }
 
     public function edit($id)
@@ -104,6 +105,7 @@ new class extends Component {
         $user->assignRole($this->role);
 
         $this->resetForm();
+        $this->dispatch('updated');
     }
 
     public function confirmDelete($id)
@@ -146,7 +148,12 @@ new class extends Component {
                 </flux:select>
             </div>
 
-            <div class="flex justify-end mt-4 space-x-2">
+            <div class="flex justify-end mt-4 space-x-2 items-center">
+
+                <x-action-message class="me-3" on="updated">
+                    {{ __('Saved.') }}
+                </x-action-message>
+
                 <flux:button type="button" wire:click="resetForm">{{ $editMode ? 'Batal' : 'Reset' }}</flux:button>
                 <flux:button type="submit" variant="primary">{{ $editMode ? 'Perbarui' : 'Simpan' }}</flux:button>
             </div>
@@ -158,8 +165,7 @@ new class extends Component {
         <div class="flex justify-between items-center mb-4">
             <h2 class="text-lg font-semibold">Daftar Users</h2>
             <div class="flex items-center">
-                <flux:input type="search" wire:model.live.debounce.250ms="search" placeholder="Cari..."
-                    class="mr-2" />
+                <flux:input type="search" wire:model.live.debounce.250ms="search" placeholder="Cari..." class="mr-2" />
             </div>
         </div>
 
@@ -179,25 +185,23 @@ new class extends Component {
                 </thead>
                 <tbody class="divide-y divide-gray-200 dark:divide-neutral-700">
                     @forelse($users as $user)
-                        <tr wire:key="user-{{ $user->id }}">
-                            <td class="px-6 py-4 whitespace-nowrap">{{ $user->name }}</td>
-                            <td class="px-6 py-4 whitespace-nowrap">{{ $user->email }}</td>
-                            <td class="px-6 py-4 whitespace-nowrap">{{ $user->getRoleNames()[0] }}</td>
-                            <td class="px-6 py-4 whitespace-nowrap text-right">
-                                <flux:button type="button" wire:click="edit({{ $user->id }})" size="xs" class="mb-2"
-                                    onclick="window.scrollTo(0, 0);">Edit</flux:button>
-                                <flux:button type="button" wire:click="confirmDelete({{ $user->id }})"
-                                    variant="danger" size="xs">
-                                    Hapus</flux:button>
-                            </td>
-                        </tr>
+                    <tr wire:key="user-{{ $user->id }}">
+                        <td class="px-6 py-4 whitespace-nowrap">{{ $user->name }}</td>
+                        <td class="px-6 py-4 whitespace-nowrap">{{ $user->email }}</td>
+                        <td class="px-6 py-4 whitespace-nowrap">{{ $user->getRoleNames()[0] }}</td>
+                        <td class="px-6 py-4 whitespace-nowrap text-right">
+                            <flux:button type="button" wire:click="edit({{ $user->id }})" size="xs" class="mb-2" onclick="window.scrollTo(0, 0);">Edit</flux:button>
+                            <flux:button type="button" wire:click="confirmDelete({{ $user->id }})" variant="danger" size="xs">
+                                Hapus</flux:button>
+                        </td>
+                    </tr>
                     @empty
-                        <tr>
-                            <td colspan="4" class="px-6 py-4 whitespace-nowrap">
-                                <p class="text-center text-sm text-gray-500 dark:text-gray-400">Tidak ada data
-                                    tersedia</p>
-                            </td>
-                        </tr>
+                    <tr>
+                        <td colspan="4" class="px-6 py-4 whitespace-nowrap">
+                            <p class="text-center text-sm text-gray-500 dark:text-gray-400">Tidak ada data
+                                tersedia</p>
+                        </td>
+                    </tr>
                     @endforelse
                 </tbody>
             </table>
