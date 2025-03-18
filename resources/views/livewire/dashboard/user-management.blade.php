@@ -9,7 +9,7 @@ use Livewire\WithoutUrlPagination;
 
 new class extends Component {
     use WithPagination, withoutUrlPagination;
-    
+
     public $name = '';
     public $email = '';
     public $password = '';
@@ -25,14 +25,16 @@ new class extends Component {
     public function getUsers()
     {
         $query = User::query();
-        
+
         if ($this->search) {
-            $query->where(function ($q) {
-                $q->where('name', 'like', '%' . $this->search . '%')
-                  ->orWhere('email', 'like', '%' . $this->search . '%');
-            });
+            $query
+                ->where(function ($q) {
+                    $q->where('name', 'like', '%' . $this->search . '%')->orWhere('email', 'like', '%' . $this->search . '%');
+                })
+                ->where('user_id', '!=', auth()->user()->id)
+                ->latest();
         }
-        
+
         return $query->paginate($this->perPage);
     }
 
@@ -55,7 +57,7 @@ new class extends Component {
             'email' => 'required|email|max:255|unique:users',
             'password' => ['confirmed', Password::defaults()],
         ]);
-        
+
         $user = User::create([
             'name' => $this->name,
             'email' => $this->email,
@@ -63,7 +65,7 @@ new class extends Component {
         ]);
 
         $user->assignRole($this->role);
-        
+
         $this->resetForm();
     }
 
@@ -84,23 +86,23 @@ new class extends Component {
             'email' => 'required|email|max:255|unique:users,email,' . $this->userId,
             'password' => $this->password ? ['confirmed', Password::defaults()] : '',
         ]);
-        
+
         $user = User::findOrFail($this->userId);
-        
+
         $data = [
             'name' => $this->name,
             'email' => $this->email,
         ];
-        
+
         if ($this->password) {
             $data['password'] = Hash::make($this->password);
         }
-        
+
         $user->update($data);
 
         $user->removeRole($user->getRoleNames()[0]);
         $user->assignRole($this->role);
-        
+
         $this->resetForm();
     }
 
@@ -114,14 +116,15 @@ new class extends Component {
     {
         $user = User::findOrFail($this->userId);
         $user->delete();
-        
+
         $this->confirmingUserDeletion = false;
         $this->resetForm();
     }
 
-    public function with(): array {
+    public function with(): array
+    {
         return [
-            'users' => $this->getUsers()
+            'users' => $this->getUsers(),
         ];
     }
 }; ?>
@@ -155,7 +158,8 @@ new class extends Component {
         <div class="flex justify-between items-center mb-4">
             <h2 class="text-lg font-semibold">Daftar Users</h2>
             <div class="flex items-center">
-                <flux:input type="search" wire:model.live.debounce.250ms="search" placeholder="Cari..." class="mr-2" />
+                <flux:input type="search" wire:model.live.debounce.250ms="search" placeholder="Cari..."
+                    class="mr-2" />
             </div>
         </div>
 
@@ -175,25 +179,25 @@ new class extends Component {
                 </thead>
                 <tbody class="divide-y divide-gray-200 dark:divide-neutral-700">
                     @forelse($users as $user)
-                    <tr wire:key="user-{{ $user->id }}">
-                        <td class="px-6 py-4 whitespace-nowrap">{{ $user->name }}</td>
-                        <td class="px-6 py-4 whitespace-nowrap">{{ $user->email }}</td>
-                        <td class="px-6 py-4 whitespace-nowrap">{{ $user->getRoleNames()[0]}}</td>
-                        <td class="px-6 py-4 whitespace-nowrap text-right">
-                            <flux:button type="button" wire:click="edit({{ $user->id }})" size="xs">Edit
-                            </flux:button>
-                            <flux:button type="button" wire:click="confirmDelete({{ $user->id }})" variant="danger"
-                                size="xs">
-                                Hapus</flux:button>
-                        </td>
-                    </tr>
+                        <tr wire:key="user-{{ $user->id }}">
+                            <td class="px-6 py-4 whitespace-nowrap">{{ $user->name }}</td>
+                            <td class="px-6 py-4 whitespace-nowrap">{{ $user->email }}</td>
+                            <td class="px-6 py-4 whitespace-nowrap">{{ $user->getRoleNames()[0] }}</td>
+                            <td class="px-6 py-4 whitespace-nowrap text-right">
+                                <flux:button type="button" wire:click="edit({{ $user->id }})" size="xs">Edit
+                                </flux:button>
+                                <flux:button type="button" wire:click="confirmDelete({{ $user->id }})"
+                                    variant="danger" size="xs">
+                                    Hapus</flux:button>
+                            </td>
+                        </tr>
                     @empty
-                    <tr>
-                        <td colspan="4" class="px-6 py-4 whitespace-nowrap">
-                            <p class="text-center text-sm text-gray-500 dark:text-gray-400">Tidak ada data
-                                tersedia</p>
-                        </td>
-                    </tr>
+                        <tr>
+                            <td colspan="4" class="px-6 py-4 whitespace-nowrap">
+                                <p class="text-center text-sm text-gray-500 dark:text-gray-400">Tidak ada data
+                                    tersedia</p>
+                            </td>
+                        </tr>
                     @endforelse
                 </tbody>
             </table>
