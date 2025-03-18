@@ -31,7 +31,7 @@ new class extends Component {
                 ->where(function ($q) {
                     $q->where('name', 'like', '%' . $this->search . '%')->orWhere('email', 'like', '%' . $this->search . '%');
                 })
-                ->where('user_id', '!=', auth()->user()->id)
+                ->where('id', '!=', auth()->user()->id)
                 ->latest();
         }
 
