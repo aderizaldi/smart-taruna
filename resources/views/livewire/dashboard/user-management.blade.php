@@ -184,8 +184,8 @@ new class extends Component {
                             <td class="px-6 py-4 whitespace-nowrap">{{ $user->email }}</td>
                             <td class="px-6 py-4 whitespace-nowrap">{{ $user->getRoleNames()[0] }}</td>
                             <td class="px-6 py-4 whitespace-nowrap text-right">
-                                <flux:button type="button" wire:click="edit({{ $user->id }})" size="xs">Edit
-                                </flux:button>
+                                <flux:button type="button" wire:click="edit({{ $user->id }})" size="xs" class="mb-2"
+                                    onclick="window.scrollTo(0, 0);">Edit</flux:button>
                                 <flux:button type="button" wire:click="confirmDelete({{ $user->id }})"
                                     variant="danger" size="xs">
                                     Hapus</flux:button>
