@@ -13,7 +13,6 @@
             <x-app-logo />
         </a>
 
-<<<<<<< HEAD
             <flux:navlist variant="outline">
                 <flux:navlist.group :heading="__('Platform')" class="grid">
                     <flux:navlist.item icon="home" :href="route('dashboard')" :current="request()->routeIs('dashboard')"
@@ -28,7 +27,6 @@
                     @endrole
                 </flux:navlist.group>
             </flux:navlist>
-=======
         <flux:navlist variant="outline">
             <flux:navlist.group :heading="__('Platform')" class="grid">
                 <flux:navlist.item icon="home" :href="route('dashboard')" :current="request()->routeIs('dashboard')" wire:navigate>{{ __('Dashboard') }}</flux:navlist.item>
@@ -38,7 +36,6 @@
                 @endrole
             </flux:navlist.group>
         </flux:navlist>
->>>>>>> e351ad5a9a6426cb7d15dec3e862a0c802ef0882
 
         <flux:spacer />
 
