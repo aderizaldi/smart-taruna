@@ -9,7 +9,7 @@ use Livewire\WithoutUrlPagination;
 
 new class extends Component {
     use WithPagination, withoutUrlPagination;
-    
+
     public $name = '';
     public $email = '';
     public $password = '';
@@ -25,14 +25,16 @@ new class extends Component {
     public function getUsers()
     {
         $query = User::query();
-        
+
         if ($this->search) {
-            $query->where(function ($q) {
-                $q->where('name', 'like', '%' . $this->search . '%')
-                  ->orWhere('email', 'like', '%' . $this->search . '%');
-            });
+            $query = $query
+                ->where(function ($q) {
+                    $q->where('name', 'like', '%' . $this->search . '%')->orWhere('email', 'like', '%' . $this->search . '%');
+                });
         }
-        
+
+        $query = $query->where('id', '!=', auth()->user()->id)->latest();
+
         return $query->paginate($this->perPage);
     }
 
@@ -55,7 +57,7 @@ new class extends Component {
             'email' => 'required|email|max:255|unique:users',
             'password' => ['confirmed', Password::defaults()],
         ]);
-        
+
         $user = User::create([
             'name' => $this->name,
             'email' => $this->email,
@@ -63,8 +65,9 @@ new class extends Component {
         ]);
 
         $user->assignRole($this->role);
-        
+
         $this->resetForm();
+        $this->dispatch('updated');
     }
 
     public function edit($id)
@@ -84,24 +87,25 @@ new class extends Component {
             'email' => 'required|email|max:255|unique:users,email,' . $this->userId,
             'password' => $this->password ? ['confirmed', Password::defaults()] : '',
         ]);
-        
+
         $user = User::findOrFail($this->userId);
-        
+
         $data = [
             'name' => $this->name,
             'email' => $this->email,
         ];
-        
+
         if ($this->password) {
             $data['password'] = Hash::make($this->password);
         }
-        
+
         $user->update($data);
 
         $user->removeRole($user->getRoleNames()[0]);
         $user->assignRole($this->role);
-        
+
         $this->resetForm();
+        $this->dispatch('updated');
     }
 
     public function confirmDelete($id)
@@ -114,14 +118,15 @@ new class extends Component {
     {
         $user = User::findOrFail($this->userId);
         $user->delete();
-        
+
         $this->confirmingUserDeletion = false;
         $this->resetForm();
     }
 
-    public function with(): array {
+    public function with(): array
+    {
         return [
-            'users' => $this->getUsers()
+            'users' => $this->getUsers(),
         ];
     }
 }; ?>
@@ -143,7 +148,12 @@ new class extends Component {
                 </flux:select>
             </div>
 
-            <div class="flex justify-end mt-4 space-x-2">
+            <div class="flex justify-end mt-4 space-x-2 items-center">
+
+                <x-action-message class="me-3" on="updated">
+                    {{ __('Saved.') }}
+                </x-action-message>
+
                 <flux:button type="button" wire:click="resetForm">{{ $editMode ? 'Batal' : 'Reset' }}</flux:button>
                 <flux:button type="submit" variant="primary">{{ $editMode ? 'Perbarui' : 'Simpan' }}</flux:button>
             </div>
@@ -178,11 +188,12 @@ new class extends Component {
                     <tr wire:key="user-{{ $user->id }}">
                         <td class="px-6 py-4 whitespace-nowrap">{{ $user->name }}</td>
                         <td class="px-6 py-4 whitespace-nowrap">{{ $user->email }}</td>
-                        <td class="px-6 py-4 whitespace-nowrap">{{ $user->getRoleNames()[0]}}</td>
+                        <td class="px-6 py-4 whitespace-nowrap">{{ $user->getRoleNames()[0] }}</td>
                         <td class="px-6 py-4 whitespace-nowrap text-right">
                             <flux:button type="button" wire:click="edit({{ $user->id }})" size="xs">Edit
                             </flux:button>
-                            <flux:button type="button" wire:click="confirmDelete({{ $user->id }})" variant="danger" size="xs">
+                            <flux:button type="button" wire:click="confirmDelete({{ $user->id }})" variant="danger"
+                                size="xs">
                                 Hapus</flux:button>
                         </td>
                     </tr>
@@ -222,7 +233,7 @@ new class extends Component {
                     <flux:button variant="ghost">Batal</flux:button>
                 </flux:modal.close>
 
-                <flux:button type="submit" variant="danger">Hapus</flux:button>
+                <flux:button variant="danger" wire:click="delete">Hapus</flux:button>
             </div>
         </div>
     </flux:modal>
