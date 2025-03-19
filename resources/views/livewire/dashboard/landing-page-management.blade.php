@@ -22,14 +22,16 @@ new class extends Component {
     public function mount()
     {
         $landingPage = LandingPage::first();
-        $this->quote = $landingPage->quote;
-        $this->email = $landingPage->email;
-        $this->phone = $landingPage->phone;
-        $this->address = $landingPage->address;
-        $this->facebook = $landingPage->facebook;
-        $this->instagram = $landingPage->instagram;
-        $this->twitter = $landingPage->twitter;
-        $this->youtube = $landingPage->youtube;
+        if ($landingPage) {
+            $this->quote = $landingPage->quote;
+            $this->email = $landingPage->email;
+            $this->phone = $landingPage->phone;
+            $this->address = $landingPage->address;
+            $this->facebook = $landingPage->facebook;
+            $this->instagram = $landingPage->instagram;
+            $this->twitter = $landingPage->twitter;
+            $this->youtube = $landingPage->youtube;
+        }
     }
 
     public function edit()
@@ -40,17 +42,18 @@ new class extends Component {
 
     public function store()
     {
+
         $validated = $this->validate([
             'quote' => 'required',
             'email' => 'required|email',
             'phone' => 'required',
             'address' => 'required',
-            'facebook' => 'required',
             'instagram' => 'required',
-            'twitter' => 'required',
-            'youtube' => 'required',
+            'facebook' => 'nullable',
+            'twitter' => 'nullable',
+            'youtube' => 'nullable',
         ]);
-        
+
         LandingPage::first()->update($validated);
         $this->editMode = false;
         $this->dispatch("editModeChange", $this->editMode); 

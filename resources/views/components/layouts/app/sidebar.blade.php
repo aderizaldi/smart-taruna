@@ -17,9 +17,9 @@
             <flux:navlist.group :heading="__('Platform')" class="grid">
                 <flux:navlist.item icon="home" :href="route('dashboard')" :current="request()->routeIs('dashboard')" wire:navigate>{{ __('Dashboard') }}</flux:navlist.item>
                 @role('admin')
-                <flux:navlist.item icon="home" :href="route('dashboard.user-management')" :current="request()->routeIs('dashboard.user-management*')" wire:navigate>
+                <flux:navlist.item icon="users" :href="route('dashboard.user-management')" :current="request()->routeIs('dashboard.user-management*')" wire:navigate>
                     Manajemen User</flux:navlist.item>
-                <flux:navlist.item icon="home" :href="route('dashboard.landing-page-management')" :current="request()->routeIs('dashboard.landing-page-management*')" wire:navigate>
+                <flux:navlist.item icon="cog-6-tooth" :href="route('dashboard.landing-page-management')" :current="request()->routeIs('dashboard.landing-page-management*')" wire:navigate>
                     Manajemen Landing Page</flux:navlist.item>
                 @endrole
             </flux:navlist.group>
