@@ -24,6 +24,7 @@
         .swiper-pagination-bullet-active {
             background-color: #20327A !important;
         }
+
     </style>
 </head>
 
@@ -31,31 +32,23 @@
 <body class="h-dvh bg-white dark:bg-zinc-800">
 
     <flux:container class="flex justify-between mt-10">
-        <img src="{{ asset('assets/primamarta_logo.png') }}" alt="primamarta_logo_nav" width="150"
-            class="object-fill">
+        <img src="{{ asset('assets/primamarta_logo.png') }}" alt="primamarta_logo_nav" width="150" class="object-fill">
         <span class="flex items-center
-                text-[#20327A] font-bold">Welcome!<flux:icon.user-circle
-                variant="solid" class="size-10 ms-2"></flux:icon.user-circle></span>
+                text-[#20327A] font-bold">Welcome!<flux:icon.user-circle variant="solid" class="size-10 ms-2"></flux:icon.user-circle></span>
     </flux:container>
 
-    <flux:container class="lg:flex justify-between items-center mt-10 w-full bg-cover bg-center"
-        style="background-image: url('{{ asset('assets/indonesia.png') }}');">
+    <flux:container class="lg:flex justify-between items-center mt-10 w-full bg-cover bg-center" style="background-image: url('{{ asset('assets/indonesia.png') }}');">
         <div class="columns-md text-balance p-12">
             <p class="text-[#20327A] text-6xl font-extrabold">SMART TARUNA</p>
-            <div class="lg:w-1/2 my-5">
-                <p class="text-[#20327A] text-2xl font-light">Lorem ipsum dolor, sit amet consectetur adipisicing
-                    elit.
-                    Temporibus ex earum cupiditate, quas optio animi neque facere odio! Aliquid facere fugit
-                    delectus
-                    expedita eum quo tempore, consectetur vel nobis unde!</p>
+            <div class="lg:w-1/2 my-5 text-[#20327A]">
+                {!! $landing_page->quote !!}
             </div>
-            <flux:button icon-trailing="arrow-long-right" :href="route('login')" wire:navigate
-                class="rounded-lg w-30 bg-[#20327A]! text-white! hover:bg-[#4054A5]! font-bold! border-none!">
+            <flux:button icon-trailing="arrow-long-right" :href="route('login')" wire:navigate class="rounded-lg w-30 bg-[#20327A]! text-white! hover:bg-[#4054A5]! font-bold! border-none!">
                 Login
             </flux:button>
         </div>
         <div class="columns-2xl text-balance p-12">
-            <img src="{{ asset('assets/smart_taruna_logo.png') }}" class="w-full object-cover" alt="">
+            <img src="{{ asset('assets/smart_taruna_logo.png') }}" class="w-full object-cover" width="150" alt="">
         </div>
     </flux:container>
 
@@ -65,7 +58,9 @@
                 <div class="grid md:grid-cols-3 gap-3">
                     <div class="flex flex-col items-center px-10">
                         <div class="bg-[#6E7AA9] rounded-full p-2">
-                            <flux:icon.clipboard-document-list class="size-5"></flux:icon.clipboard-document-list>
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M9 12h3.75M9 15h3.75M9 18h3.75m3 .75H18a2.25 2.25 0 0 0 2.25-2.25V6.108c0-1.135-.845-2.098-1.976-2.192a48.424 48.424 0 0 0-1.123-.08m-5.801 0c-.065.21-.1.433-.1.664 0 .414.336.75.75.75h4.5a.75.75 0 0 0 .75-.75 2.25 2.25 0 0 0-.1-.664m-5.8 0A2.251 2.251 0 0 1 13.5 2.25H15c1.012 0 1.867.668 2.15 1.586m-5.8 0c-.376.023-.75.05-1.124.08C9.095 4.01 8.25 4.973 8.25 6.108V8.25m0 0H4.875c-.621 0-1.125.504-1.125 1.125v11.25c0 .621.504 1.125 1.125 1.125h9.75c.621 0 1.125-.504 1.125-1.125V9.375c0-.621-.504-1.125-1.125-1.125H8.25ZM6.75 12h.008v.008H6.75V12Zm0 3h.008v.008H6.75V15Zm0 3h.008v.008H6.75V18Z" />
+                            </svg>
                         </div>
                         <p class="text-3xl font-bold mt-2 text-[#EC0E0F]">190+</p>
                         <p class="text-center">Try Out Tersedia</p>
@@ -88,14 +83,12 @@
             </flux:container>
         </flux:container>
 
-        <p
-            class="text-[#20327A] text-2xl md:text-5xl font-semibold text-center mt-15 md:mt-25 underline underline-offset-[8px] md:underline-offset-[15px]">
+        <p class="text-[#20327A] text-2xl md:text-5xl font-semibold text-center mt-15 md:mt-25 underline underline-offset-[8px] md:underline-offset-[15px]">
             Our Gallery
         </p>
 
         <div class="relative w-full max-w-5xl mx-auto mt-5 md:mt-15 flex justify-center items-center">
-            <flux:icon.chevron-left
-                class="size-10 swiper-button-prev-custom text-[#20327A] me-3"></flux:icon.chevron-left>
+            <flux:icon.chevron-left class="size-10 swiper-button-prev-custom text-[#20327A] me-3"></flux:icon.chevron-left>
             <!-- Wrapper Swiper -->
             <div class="swiper mySwiper">
                 <div class="swiper-wrapper">
@@ -123,15 +116,13 @@
                 <!-- Pagination -->
                 <div class="swiper-pagination"></div>
             </div>
-            <flux:icon.chevron-right
-                class="size-10 swiper-button-next-custom text-[#20327A] ms-3"></flux:icon.chevron-right>
+            <flux:icon.chevron-right class="size-10 swiper-button-next-custom text-[#20327A] ms-3"></flux:icon.chevron-right>
         </div>
 
         <flux:container class="mt-30 w-full relative">
             <div class="grid md:grid-cols-3 gap-10 md:gap-60">
                 <div class="flex flex-col items-start">
-                    <img src="{{ asset('assets/primamarta_logo.png') }}" alt="primamarta_logo_footer" width="200"
-                        class="object-fill">
+                    <img src="{{ asset('assets/primamarta_logo.png') }}" alt="primamarta_logo_footer" width="200" class="object-fill">
                     <div class="flex w-full items-center gap-1">
                         <flux:icon.map-pin class="text-[#20327A]">
                         </flux:icon.map-pin>
@@ -190,28 +181,29 @@
             spaceBetween: 20, // Jarak antar gambar
             loop: true, // Agar carousel berulang
             navigation: {
-                nextEl: ".swiper-button-next-custom",
-                prevEl: ".swiper-button-prev-custom",
-            },
-            pagination: {
-                el: ".swiper-pagination",
-                clickable: true,
-            },
-            breakpoints: {
+                nextEl: ".swiper-button-next-custom"
+                , prevEl: ".swiper-button-prev-custom"
+            , }
+            , pagination: {
+                el: ".swiper-pagination"
+                , clickable: true
+            , }
+            , breakpoints: {
                 240: {
                     slidesPerView: 1, // 1 gambar di layar kecil
-                },
-                640: {
+                }
+                , 640: {
                     slidesPerView: 1, // 1 gambar di layar kecil
-                },
-                768: {
+                }
+                , 768: {
                     slidesPerView: 2, // 2 gambar di tablet
-                },
-                1024: {
+                }
+                , 1024: {
                     slidesPerView: 3, // 3 gambar di layar besar
                 }
             }
         });
+
     </script>
 </body>
 

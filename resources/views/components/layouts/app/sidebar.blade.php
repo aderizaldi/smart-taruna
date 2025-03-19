@@ -22,6 +22,9 @@
                     <flux:navlist.item icon="home" :href="route('dashboard.user-management')"
                         :current="request()->routeIs('dashboard.user-management*')" wire:navigate>
                         Manajemen User</flux:navlist.item>
+                    <flux:navlist.item icon="home" :href="route('dashboard.landing-page-management')"
+                        :current="request()->routeIs('dashboard.landing-page-management*')" wire:navigate>
+                        Manajemen Landing Page</flux:navlist.item>
                     @endrole
                 </flux:navlist.group>
             </flux:navlist>
