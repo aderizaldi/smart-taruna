@@ -68,6 +68,11 @@ new class extends Component {
 ?>
 
 <div class="flex h-full w-full flex-1 flex-col gap-4 rounded-xl">
+    <flux:breadcrumbs>
+        <flux:breadcrumbs.item href="{{ route('dashboard') }}">Dashboard</flux:breadcrumbs.item>
+        <flux:breadcrumbs.item href="#">Landing Page</flux:breadcrumbs.item>
+    </flux:breadcrumbs>
+
     <div class="overflow-hidden rounded-xl border border-neutral-200 dark:border-neutral-700 p-5">
         <h2 class="text-lg font-semibold mb-4">Landing Page</h2>
 

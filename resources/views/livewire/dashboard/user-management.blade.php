@@ -132,6 +132,11 @@ new class extends Component {
 }; ?>
 
 <div class="flex h-full w-full flex-1 flex-col gap-4 rounded-xl">
+    <flux:breadcrumbs>
+        <flux:breadcrumbs.item href="{{ route('dashboard') }}">Dashboard</flux:breadcrumbs.item>
+        <flux:breadcrumbs.item href="#">User</flux:breadcrumbs.item>
+    </flux:breadcrumbs>
+
     <!-- Form untuk Create dan Edit -->
     <div class="overflow-hidden rounded-xl border border-neutral-200 dark:border-neutral-700 p-5">
         <h2 class="text-lg font-semibold mb-4">{{ $editMode ? 'Edit User' : 'Tambah User Baru' }}</h2>
@@ -192,8 +197,7 @@ new class extends Component {
                         <td class="px-6 py-4 whitespace-nowrap text-right">
                             <flux:button type="button" wire:click="edit({{ $user->id }})" size="xs">Edit
                             </flux:button>
-                            <flux:button type="button" wire:click="confirmDelete({{ $user->id }})" variant="danger"
-                                size="xs">
+                            <flux:button type="button" wire:click="confirmDelete({{ $user->id }})" variant="danger" size="xs">
                                 Hapus</flux:button>
                         </td>
                     </tr>

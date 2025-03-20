@@ -9,7 +9,7 @@ use Illuminate\Support\Facades\Storage;
 Route::get('/', function () {
     $landing_page = LandingPage::first();
     return view('landing-page', compact('landing_page'));
-})->name('home')->middleware('guest');
+})->name('home');
 
 Route::view('dashboard', 'dashboard')
     ->middleware(['auth', 'verified'])

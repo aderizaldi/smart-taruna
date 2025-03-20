@@ -8,8 +8,8 @@ class Package extends Model
 {
     protected $guarded = ['id'];
 
-    public function package_exams()
+    public function exams()
     {
-        return $this->hasMany(PackageExam::class);
+        return $this->hasMany(Exam::class);
     }
 }
