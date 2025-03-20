@@ -40,6 +40,12 @@ new class extends Component {
         $this->dispatch("editModeChange", $this->editMode); 
     }
 
+    public function cancel()
+    {
+        $this->editMode = false;
+        $this->dispatch("editModeChange", $this->editMode);
+    }
+
     public function store()
     {
 
@@ -68,6 +74,11 @@ new class extends Component {
 ?>
 
 <div class="flex h-full w-full flex-1 flex-col gap-4 rounded-xl">
+    <flux:breadcrumbs>
+        <flux:breadcrumbs.item href="{{ route('dashboard') }}">Dashboard</flux:breadcrumbs.item>
+        <flux:breadcrumbs.item href="#">Landing Page</flux:breadcrumbs.item>
+    </flux:breadcrumbs>
+
     <div class="overflow-hidden rounded-xl border border-neutral-200 dark:border-neutral-700 p-5">
         <h2 class="text-lg font-semibold mb-4">Landing Page</h2>
 
@@ -89,6 +100,7 @@ new class extends Component {
             </div>
             <div class="flex justify-end mt-4 space-x-2">
                 @if($editMode)
+                <flux:button type="button" wire:click="cancel">Batal</flux:button>
                 <flux:button type="submit" icon="arrow-up-tray" variant="primary">Simpan</flux:button>
                 @else
                 <flux:button type="button" icon="pencil-square" wire:click="edit">Edit</flux:button>

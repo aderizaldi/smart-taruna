@@ -22,4 +22,9 @@ class Exam extends Model
     {
         return $this->hasMany(UserExam::class);
     }
+
+    public function package()
+    {
+        return $this->belongsTo(Package::class);
+    }
 }
