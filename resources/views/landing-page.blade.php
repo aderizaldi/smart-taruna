@@ -91,25 +91,11 @@
             <div class="swiper mySwiper">
                 <div class="swiper-wrapper">
                     <!-- Slide 1 -->
+                    @foreach ($landing_page_image as $item)
                     <div class="swiper-slide">
-                        <img src="{{ asset('assets/1.png') }}" class="w-full rounded-lg" alt="Slide 1">
+                        <img src="{{ asset('storage/'. $item->image) }}" class="w-full rounded-lg" alt="Slide 1">
                     </div>
-                    <!-- Slide 2 -->
-                    <div class="swiper-slide">
-                        <img src="{{ asset('assets/2.png') }}" class="w-full rounded-lg" alt="Slide 2">
-                    </div>
-                    <!-- Slide 3 -->
-                    <div class="swiper-slide">
-                        <img src="{{ asset('assets/3.png') }}" class="w-full rounded-lg" alt="Slide 3">
-                    </div>
-                    <!-- Slide 4 -->
-                    <div class="swiper-slide">
-                        <img src="{{ asset('assets/4.png') }}" class="w-full rounded-lg" alt="Slide 4">
-                    </div>
-                    <!-- Slide 5 -->
-                    <div class="swiper-slide">
-                        <img src="{{ asset('assets/5.png') }}" class="w-full rounded-lg" alt="Slide 5">
-                    </div>
+                    @endforeach
                 </div>
                 <!-- Pagination -->
                 <div class="swiper-pagination"></div>
