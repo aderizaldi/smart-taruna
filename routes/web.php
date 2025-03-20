@@ -9,14 +9,9 @@ use Illuminate\Support\Facades\Storage;
 
 Route::get('/', function () {
     $landing_page = LandingPage::first();
-<<<<<<< HEAD
     $landing_page_image = LandingPageImage::get();
     return view('landing-page', compact('landing_page', 'landing_page_image'));
 })->name('home')->middleware('guest');
-=======
-    return view('landing-page', compact('landing_page'));
-})->name('home');
->>>>>>> c49e13c6190ce7f72e5044fbdde0edeae6b27a39
 
 Route::view('dashboard', 'dashboard')
     ->middleware(['auth', 'verified'])
