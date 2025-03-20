@@ -40,6 +40,12 @@ new class extends Component {
         $this->dispatch("editModeChange", $this->editMode); 
     }
 
+    public function cancel()
+    {
+        $this->editMode = false;
+        $this->dispatch("editModeChange", $this->editMode);
+    }
+
     public function store()
     {
 
@@ -94,6 +100,7 @@ new class extends Component {
             </div>
             <div class="flex justify-end mt-4 space-x-2">
                 @if($editMode)
+                <flux:button type="button" wire:click="cancel">Batal</flux:button>
                 <flux:button type="submit" icon="arrow-up-tray" variant="primary">Simpan</flux:button>
                 @else
                 <flux:button type="button" icon="pencil-square" wire:click="edit">Edit</flux:button>
