@@ -33,22 +33,35 @@ new class extends Component {
             $this->youtube = $landingPage->youtube;
         }
     }
-
+    
     public function edit()
     {
         $this->editMode = true;
-        $this->dispatch("editModeChange", $this->editMode); 
+        $this->dispatch("toggleDisableEditor", true);
     }
-
+    
     public function cancel()
     {
         $this->editMode = false;
-        $this->dispatch("editModeChange", $this->editMode);
+        $landingPage = LandingPage::first();
+        if ($landingPage) {
+            $this->quote = $landingPage->quote;
+            $this->email = $landingPage->email;
+            $this->phone = $landingPage->phone;
+            $this->address = $landingPage->address;
+            $this->facebook = $landingPage->facebook;
+            $this->instagram = $landingPage->instagram;
+            $this->twitter = $landingPage->twitter;
+            $this->youtube = $landingPage->youtube;
+        }
+        
+        $this->dispatch("resetEditor", $this->quote);
+        $this->dispatch("toggleDisableEditor", false);
     }
-
+    
     public function store()
     {
-
+        
         $validated = $this->validate([
             'quote' => 'required',
             'email' => 'required|email',
@@ -60,15 +73,16 @@ new class extends Component {
             'youtube' => 'nullable',
         ]);
 
-        LandingPage::first()->update($validated);
+        LandingPage::first()->update($validated);        
         $this->editMode = false;
-        $this->dispatch("editModeChange", $this->editMode); 
+        $this->dispatch("toggleDisableEditor", false);
+        $this->dispatch('updated');
     }
 
-    public function with(): array {
+    public function with() : array {
         return [
-            'edit_mode' => $this->editMode,
-        ];
+            'editMode' => $this->editMode
+    ];
     }
 };
 ?>
@@ -86,7 +100,7 @@ new class extends Component {
 
             <div class="mb-4" wire:ignore>
                 <div class="mb-2">Jargon</div>
-                <div class="summernote mt-2" id="summer-note">{!! $quote !!}</div>
+                <livewire:plugin.text-editor wire:model="quote" name="quote" :content="$quote" :disabled="!$editMode" />
             </div>
             <flux:separator text="Kontak & Media Sosial" />
             <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mt-4">
@@ -98,7 +112,10 @@ new class extends Component {
                 <flux:input type="text" label="Twitter" wire:model="twitter" :disabled="!$editMode" />
                 <flux:input type="text" label="Youtube" wire:model="youtube" :disabled="!$editMode" />
             </div>
-            <div class="flex justify-end mt-4 space-x-2">
+            <div class="flex justify-end mt-4 space-x-2 items-center">
+                <x-action-message class="me-3" on="updated">
+                    {{ __('Saved.') }}
+                </x-action-message>
                 @if($editMode)
                 <flux:button type="button" wire:click="cancel">Batal</flux:button>
                 <flux:button type="submit" icon="arrow-up-tray" variant="primary">Simpan</flux:button>
@@ -110,7 +127,7 @@ new class extends Component {
     </div>
 </div>
 
-@script
+{{-- @script
 <script>
     $(function() {
         $('#summer-note').summernote({
@@ -152,4 +169,55 @@ new class extends Component {
     });
 
 </script>
-@endscript
+@endscript --}}
+{{--
+@push('scripts')
+<script>
+    quillEditor = new Quill('#editor', {
+        theme: 'snow'
+        , modules: {
+            toolbar: [
+                ['bold', 'italic', 'underline', 'strike']
+                , ['blockquote', 'code-block']
+                , [{
+                    'header': 1
+                }, {
+                    'header': 2
+                }]
+                , [{
+                    'list': 'ordered'
+                }, {
+                    'list': 'bullet'
+                }]
+                , [{
+                    'indent': '-1'
+                }, {
+                    'indent': '+1'
+                }]
+                , [{
+                    'size': ['small', false, 'large', 'huge']
+                }]
+                , [{
+                    'header': [1, 2, 3, 4, 5, 6, false]
+                }]
+                , [{
+                    'color': []
+                }, {
+                    'background': []
+                }]
+                , [{
+                    'align': []
+                }]
+                , ['link', 'image']
+                , ['clean']
+            ]
+        }
+    });
+
+    quillEditor.on('text-change', function() {
+        @this.set('quote', quillEditor.root.innerHTML);
+        console.log(quillEditor.root.innerHTML);
+    });
+</script>
+
+@endpush --}}
