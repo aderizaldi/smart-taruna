@@ -47,7 +47,7 @@
                 Login
             </flux:button>
         </div>
-        <div class="columns-md text-balance p-12">
+        <div class="columns-md md:columns-3xl text-balance p-12">
             <img src="{{ asset('assets/smart_taruna_logo.png') }}" class="w-full object-cover" alt="">
         </div>
     </flux:container>
