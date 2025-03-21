@@ -47,36 +47,24 @@
                 Login
             </flux:button>
         </div>
-        <div class="columns-sm text-balance p-12">
+        <div class="columns-md text-balance p-12">
             <img src="{{ asset('assets/smart_taruna_logo.png') }}" class="w-full object-cover" alt="">
         </div>
     </flux:container>
 
     <div class="bg-repeat-round bg-cover pt-1" style="background-image: url('{{ asset('assets/Simple Shiny.svg') }}');">
-        <flux:container class="flex justify-center mt-10 w-full">
-            <flux:container class="bg-[#20327A]! mx-30! md:mx-50! text-white! py-6 rounded-full">
-                <div class="grid md:grid-cols-3 gap-3">
-                    <div class="flex flex-col items-center px-10">
+        <flux:container class="mt-10! w-3/6!">
+            <flux:container class="bg-[#20327A]! w-full! text-white! py-6! rounded-full!">
+                <div class="flex flex-wrap justify-center gap-x-10 gap-y-3">
+                    @foreach ($landing_page_achievements as $achievement)
+                    <div class="flex flex-col items-center">
                         <div class="bg-[#6E7AA9] rounded-full p-2">
-                            <flux:icon.clipboard-document-list class="size-5"></flux:icon.clipboard-document-list>
+                            {!! $achievement->icon !!}
                         </div>
-                        <p class="text-3xl font-bold mt-2 text-[#EC0E0F]">190+</p>
-                        <p class="text-center">Try Out Tersedia</p>
+                        <p class="text-3xl font-bold mt-2 text-[#EC0E0F]">{{ $achievement->amount }}</p>
+                        <p class="text-center">{{ $achievement->description }}</p>
                     </div>
-                    <div class="flex flex-col items-center px-10">
-                        <div class="bg-[#6E7AA9] rounded-full p-2">
-                            <flux:icon.academic-cap class="size-5"></flux:icon.academic-cap>
-                        </div>
-                        <p class="text-3xl font-bold mt-2 text-[#EC0E0F]">120K</p>
-                        <p class="text-center">Siswa Lulus Kedinasan & PNS</p>
-                    </div>
-                    <div class="flex flex-col items-center px-10">
-                        <div class="bg-[#6E7AA9] rounded-full p-2">
-                            <flux:icon.users class="size-5 bg-[#6E7AA9]"></flux:icon.users>
-                        </div>
-                        <p class="text-3xl font-bold mt-2 text-[#EC0E0F]">58</p>
-                        <p class="text-center">Siswa Mendaftar Setiap Tahunnya</p>
-                    </div>
+                    @endforeach
                 </div>
             </flux:container>
         </flux:container>
@@ -91,13 +79,12 @@
             <div class="swiper mySwiper">
                 <div class="swiper-wrapper">
                     <!-- Slide 1 -->
-                    @foreach ($landing_page_image as $item)
+                    @foreach ($landing_page_images as $image)
                     <div class="swiper-slide">
-                        <img src="{{ asset('storage/'. $item->image) }}" class="w-full rounded-lg" alt="Slide 1">
+                        <img src="{{ asset('storage/'. $image->image) }}" class="w-full rounded-lg object-cover {{ $total_image <= 3 ? 'max-w-3/4' : '' }} justify-self-center" alt="Slide {{ $loop->iteration }}">
                     </div>
                     @endforeach
                 </div>
-                <!-- Pagination -->
                 <div class="swiper-pagination"></div>
             </div>
             <flux:icon.chevron-right class="size-10 swiper-button-next-custom text-[#20327A] ms-3"></flux:icon.chevron-right>
@@ -168,6 +155,13 @@
     @fluxScripts
     <script src="https://cdn.jsdelivr.net/npm/swiper/swiper-bundle.min.js"></script>
     <script>
+        // mendapatkan panjang $landing_page_images
+        var length = @json($total_image);
+        if (length < 3) {
+            var maxPerView = length;
+        } else {
+            var maxPerView = 3;
+        }
         var swiper = new Swiper(".mySwiper", {
             slidesPerView: 3, // 3 gambar per slide
             spaceBetween: 20, // Jarak antar gambar
@@ -191,7 +185,7 @@
                     slidesPerView: 2, // 2 gambar di tablet
                 }
                 , 1024: {
-                    slidesPerView: 3, // 3 gambar di layar besar
+                    slidesPerView: maxPerView, // 3 gambar di layar besar
                 }
             }
         });

@@ -1,16 +1,19 @@
 <?php
 
-use App\Models\LandingPage;
-use App\Models\LandingPageImage;
 use Livewire\Volt\Volt;
-use Illuminate\Support\Facades\Route;
+use App\Models\LandingPage;
 use Illuminate\Http\Request;
+use App\Models\LandingPageImage;
+use Illuminate\Support\Facades\Route;
+use App\Models\LandingPageAchievement;
 use Illuminate\Support\Facades\Storage;
 
 Route::get('/', function () {
     $landing_page = LandingPage::first();
-    $landing_page_image = LandingPageImage::get();
-    return view('landing-page', compact('landing_page', 'landing_page_image'));
+    $landing_page_images = LandingPageImage::get();
+    $landing_page_achievements = LandingPageAchievement::get();
+    $total_image = count($landing_page_images);
+    return view('landing-page', compact('landing_page', 'landing_page_images', 'landing_page_achievements', 'total_image'));
 })->name('home')->middleware('guest');
 
 Route::view('dashboard', 'dashboard')

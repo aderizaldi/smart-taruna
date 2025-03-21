@@ -11,7 +11,7 @@ new class extends Component {
     
     public $image = [];
     public $confirmingImageDeletion = false;
-    public $imageId = '';
+    public $imageId = null;
     
     public function getImages()
     {
@@ -30,26 +30,22 @@ new class extends Component {
                 'image' => $img->store('landing-page-images'),
             ]);
         }   
+        $this->dispatch('saved');
         $this->image = [];
+        $this->imageId = null;
     }
 
     public function delete(){
         $image = LandingPageImage::findOrFail($this->imageId);
         Storage::delete($image->image);
         $image->delete();
+        $this->imageId = null;
         $this->confirmingImageDeletion = false;
     }
 
     public function confirmDelete($id){
         $this->imageId = $id;
         $this->confirmingImageDeletion = true;
-    }
-
-    public function update($id){
-        $image = LandingPageImage::find($id);
-        Storage::delete($image->image);
-        $image->image = $this->image->store('landing-page-images', 'public');
-        $image->save(); 
     }
 
     public function with(): array
@@ -63,6 +59,10 @@ new class extends Component {
 ?>
 
 <div class="flex h-full w-full flex-1 flex-col gap-4 rounded-xl">
+    <flux:breadcrumbs>
+        <flux:breadcrumbs.item href="{{ route('dashboard') }}">Dashboard</flux:breadcrumbs.item>
+        <flux:breadcrumbs.item href="#">Gallery</flux:breadcrumbs.item>
+    </flux:breadcrumbs>
     <!-- Form untuk Create dan Edit -->
     <div class="overflow-hidden rounded-xl border border-neutral-200 dark:border-neutral-700 p-5">
         <h2 class="text-lg font-semibold mb-4">Tambah Gambar Baru</h2>
@@ -74,7 +74,7 @@ new class extends Component {
 
             <div class="flex justify-end mt-4 space-x-2 items-center">
 
-                <x-action-message class="me-3" on="updated">
+                <x-action-message class="me-3" on="saved">
                     {{ __('Saved.') }}
                 </x-action-message>
 
@@ -108,8 +108,6 @@ new class extends Component {
                         <td class="px-6 py-4 whitespace-nowrap">{{ $loop->iteration }}</td>
                         <td class="px-6 py-4 whitespace-nowrap"><img src="{{ asset('storage/'. $item->image)  }}" alt="" width="150"></td>
                         <td class="px-6 py-4 whitespace-nowrap text-right">
-                            <flux:button type="button" wire:click="edit({{ $item->id }})" size="xs">Edit
-                            </flux:button>
                             <flux:button type="button" wire:click="confirmDelete({{ $item->id }})" variant="danger" size="xs">
                                 Hapus</flux:button>
                         </td>

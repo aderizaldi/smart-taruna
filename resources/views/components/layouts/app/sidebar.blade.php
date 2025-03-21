@@ -19,9 +19,7 @@
                 @role('admin')
                 <flux:navlist.item icon="users" :href="route('dashboard.user-management')" :current="request()->routeIs('dashboard.user-management*')" wire:navigate>
                     Manajemen User</flux:navlist.item>
-                {{-- <flux:navlist.item icon="cog-6-tooth" :href="route('dashboard.landing-page-management')" :current="request()->routeIs('dashboard.landing-page-management*')" wire:navigate>
-                    Manajemen Landing Page</flux:navlist.item> --}}
-                <flux:navlist.group expandable heading="Landing Page" class="hidden lg:grid">
+                <flux:navlist.group expandable heading="Landing Page" class="hidden lg:grid" :expanded="request()->routeIs('dashboard.landing-page-management*') || request()->routeIs('dashboard.gallery') || request()->routeIs('dashboard.achievement')">
                     <flux:navlist.item icon="cog-6-tooth" :href="route('dashboard.landing-page-management')" :current="request()->routeIs('dashboard.landing-page-management*')" wire:navigate>Profil</flux:navlist.item>
                     <flux:navlist.item icon="photo" :href="route('dashboard.gallery')" :current="request()->routeIs('dashboard.gallery')" wire:navigate>Gallery</flux:navlist.item>
                     <flux:navlist.item icon="star" :href="route('dashboard.achievement')" :current="request()->routeIs('dashboard.achievement')" wire:navigate>achievement</flux:navlist.item>
