@@ -9,6 +9,7 @@ use Livewire\Volt\Component;
 new class extends Component {
     public string $name = '';
     public string $email = '';
+    public string $role = '';
 
     /**
      * Mount the component.
@@ -17,6 +18,7 @@ new class extends Component {
     {
         $this->name = Auth::user()->name;
         $this->email = Auth::user()->email;
+        $this->role = Auth::user()->getRoleNames()[0];
     }
 
     /**
@@ -47,7 +49,7 @@ new class extends Component {
 
         $user->save();
 
-        $this->dispatch('profile-updated', name: $user->name);
+        $this->dispatch('showToast', 'success', 'Profil berhasil diperbarui.');
     }
 
     /**
@@ -97,15 +99,12 @@ new class extends Component {
                 </div>
                 @endif
             </div>
+            <flux:input wire:model="role" :label="__('Role')" type="text" disabled />
 
             <div class="flex items-center gap-4">
                 <div class="flex items-center justify-end">
                     <flux:button variant="primary" type="submit" class="w-full">{{ __('Save') }}</flux:button>
                 </div>
-
-                <x-action-message class="me-3" on="profile-updated">
-                    {{ __('Saved.') }}
-                </x-action-message>
             </div>
         </form>
 

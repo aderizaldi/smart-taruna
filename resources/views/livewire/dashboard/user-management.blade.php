@@ -67,7 +67,7 @@ new class extends Component {
         $user->assignRole($this->role);
 
         $this->resetForm();
-        $this->dispatch('updated');
+        $this->dispatch('showToast', 'success', 'User berhasil ditambahkan.');
     }
 
     public function edit($id)
@@ -105,7 +105,7 @@ new class extends Component {
         $user->assignRole($this->role);
 
         $this->resetForm();
-        $this->dispatch('updated');
+        $this->dispatch('showToast', 'success', 'User berhasil diperbarui.');
     }
 
     public function confirmDelete($id)
@@ -154,11 +154,6 @@ new class extends Component {
             </div>
 
             <div class="flex justify-end mt-4 space-x-2 items-center">
-
-                <x-action-message class="me-3" on="updated">
-                    {{ __('Saved.') }}
-                </x-action-message>
-
                 <flux:button type="button" wire:click="resetForm">{{ $editMode ? 'Batal' : 'Reset' }}</flux:button>
                 <flux:button type="submit" variant="primary">{{ $editMode ? 'Perbarui' : 'Simpan' }}</flux:button>
             </div>

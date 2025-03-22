@@ -10,6 +10,9 @@
 {{-- quill editor --}}
 <link href="https://cdn.jsdelivr.net/npm/quill@2.0.3/dist/quill.snow.css" rel="stylesheet" />
 
+{{-- toastr --}}
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css">
+
 @stack('custom-css')
 
 @vite(['resources/css/app.css', 'resources/js/app.js'])

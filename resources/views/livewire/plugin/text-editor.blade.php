@@ -69,13 +69,13 @@ new class extends Component {
                 $wire.set('content', quillEditor.root.innerHTML);
             });
             
-            window.addEventListener('quill-reset', function(e) {
-                quillEditor.root.innerHTML = e.detail[0].content;
-                $wire.set('content', e.detail[0].content);
+            $wire.on('quill-reset', (e) => {
+                quillEditor.root.innerHTML = e[0].content;
+                $wire.set('content', e[0].content);
             });
             
-            window.addEventListener('quill-toggle-disable', function(e) {
-                quillEditor.enable(e.detail[0].disabled);
+            $wire.on('quill-toggle-disable', (e) => {
+                quillEditor.enable(e[0].disabled);
             });
         ">
         <div x-ref="quillContainer" style="min-height: 150px;"></div>

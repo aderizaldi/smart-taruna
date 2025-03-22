@@ -61,7 +61,6 @@ new class extends Component {
     
     public function store()
     {
-        
         $validated = $this->validate([
             'quote' => 'required',
             'email' => 'required|email',
@@ -76,7 +75,7 @@ new class extends Component {
         LandingPage::first()->update($validated);        
         $this->editMode = false;
         $this->dispatch("toggleDisableEditor", false);
-        $this->dispatch('updated');
+        $this->dispatch('showToast', 'success', 'Data berhasil disimpan.');
     }
 
     public function with() : array {
@@ -113,9 +112,6 @@ new class extends Component {
                 <flux:input type="text" label="Youtube" wire:model="youtube" :disabled="!$editMode" />
             </div>
             <div class="flex justify-end mt-4 space-x-2 items-center">
-                <x-action-message class="me-3" on="updated">
-                    {{ __('Saved.') }}
-                </x-action-message>
                 @if($editMode)
                 <flux:button type="button" wire:click="cancel">Batal</flux:button>
                 <flux:button type="submit" icon="arrow-up-tray" variant="primary">Simpan</flux:button>
