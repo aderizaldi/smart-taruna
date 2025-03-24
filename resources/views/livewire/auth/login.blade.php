@@ -75,13 +75,11 @@ new #[Layout('components.layouts.auth')] class extends Component {
 
     <form wire:submit="login" class="flex flex-col gap-6">
         <!-- Email Address -->
-        <flux:input wire:model="email" :label="'Email'" type="email" required autofocus autocomplete="email"
-            placeholder="email@example.com" />
+        <flux:input wire:model="email" :label="'Email'" type="email" required autofocus autocomplete="email" placeholder="email@example.com" />
 
         <!-- Password -->
         <div class="relative">
-            <flux:input wire:model="password" :label="'Password'" type="password" required
-                autocomplete="current-password" :placeholder="'Password'" viewable />
+            <flux:input wire:model="password" :label="'Password'" type="password" required autocomplete="current-password" :placeholder="'Password'" viewable />
         </div>
 
         <!-- Remember Me -->
@@ -97,9 +95,9 @@ new #[Layout('components.layouts.auth')] class extends Component {
     </flux:container>
 
     @if (Route::has('register'))
-        <div class="space-x-1 text-center text-sm text-zinc-600 dark:text-zinc-400">
-            {{ 'Don\'t have an account?' }}
-            <flux:link :href="route('register')" wire:navigate>Sign up</flux:link>
-        </div>
+    <div class="space-x-1 text-center text-sm text-zinc-600 dark:text-zinc-400">
+        {{ 'Don\'t have an account?' }}
+        <flux:link :href="route('register')" wire:navigate>Sign up</flux:link>
+    </div>
     @endif
 </div>

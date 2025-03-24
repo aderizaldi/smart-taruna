@@ -35,4 +35,8 @@ Route::middleware(['auth', 'role:admin'])->group(function () {
     Volt::route('dashboard/achievement', 'dashboard.achievement-management')->name('dashboard.achievement');
 });
 
+Route::middleware(['auth', 'role:user'])->group(function () {
+    Volt::route('user/exam', 'user.exam')->name('user.exam');
+});
+
 require __DIR__ . '/auth.php';

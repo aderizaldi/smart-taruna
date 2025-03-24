@@ -25,6 +25,10 @@
                     <flux:navlist.item icon="star" :href="route('dashboard.achievement')" :current="request()->routeIs('dashboard.achievement')" wire:navigate>achievement</flux:navlist.item>
                 </flux:navlist.group>
                 @endrole
+                @role('user')
+                <flux:navlist.item icon="clipboard-document-list" :href="route('user.exam')" :current="request()->routeIs('user.exam*')" wire:navigate>
+                    Exam</flux:navlist.item>
+                @endrole
             </flux:navlist.group>
         </flux:navlist>
 
