@@ -19,6 +19,7 @@ return new class extends Migration
             $table->text('description')->nullable();
             $table->string('image')->nullable();
             $table->boolean('is_active')->default(false);
+            $table->integer('time')->default(60); // in minutes
             $table->timestamps();
         });
     }
