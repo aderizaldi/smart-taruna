@@ -17,6 +17,8 @@
             <flux:navlist.group :heading="__('Platform')" class="grid">
                 <flux:navlist.item icon="home" :href="route('dashboard')" :current="request()->routeIs('dashboard')" wire:navigate>{{ __('Dashboard') }}</flux:navlist.item>
                 @role('admin')
+                <flux:navlist.item icon="document-duplicate" :href="route('dashboard.exam-type')" :current="request()->routeIs('dashboard.exam-type*')" wire:navigate>
+                    Jenis Soal</flux:navlist.item>
                 <flux:navlist.item icon="users" :href="route('dashboard.user-management')" :current="request()->routeIs('dashboard.user-management*')" wire:navigate>
                     Manajemen User</flux:navlist.item>
                 <flux:navlist.group expandable heading="Landing Page" class="hidden lg:grid" :expanded="request()->routeIs('dashboard.landing-page-management*') || request()->routeIs('dashboard.gallery') || request()->routeIs('dashboard.achievement')">

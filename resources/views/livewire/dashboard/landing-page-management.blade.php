@@ -98,8 +98,7 @@ new class extends Component {
         <form wire:submit.prevent="store">
 
             <div class="mb-4" wire:ignore>
-                <div class="mb-2">Jargon</div>
-                <livewire:plugin.text-editor wire:model="quote" name="quote" :content="$quote" :disabled="!$editMode" />
+                <livewire:plugin.text-editor label="Jargon" wire:model="quote" :disabled="!$editMode" />
             </div>
             <flux:separator text="Kontak & Media Sosial" />
             <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mt-4">

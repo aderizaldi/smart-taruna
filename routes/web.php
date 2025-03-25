@@ -33,6 +33,8 @@ Route::middleware(['auth', 'role:admin'])->group(function () {
     Volt::route('dashboard/landing-page-management', 'dashboard.landing-page-management')->name('dashboard.landing-page-management');
     Volt::route('dashboard/gallery', 'dashboard.gallery-management')->name('dashboard.gallery');
     Volt::route('dashboard/achievement', 'dashboard.achievement-management')->name('dashboard.achievement');
+    Volt::route('dashboard/exam-type', 'dashboard.exam-type')->name('dashboard.exam-type');
+    Volt::route('dashboard/exam-type/{type}', 'dashboard.detail-exam-type')->name('dashboard.detail-exam-type');
 });
 
 Route::middleware(['auth', 'role:user'])->group(function () {

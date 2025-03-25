@@ -6,18 +6,21 @@ use Livewire\Attributes\Modelable;
 new class extends Component {
     #[Modelable]
     public $content;
-    public $name;
+    public $label = '';
     public $disabled = false;
     public $placeholder = '';
+    // height editor xs = 50px, sm = 100px, md = 150px, lg = 200px, xl = 250px
+    public $size = 'md';
+    public $sizes = ['xs' => '50px', 'sm' => '100px', 'md' => '150px', 'lg' => '200px', 'xl' => '250px'];
 
     protected $listeners = ['resetEditor', 'toggleDisableEditor'];
 
-    public function mount($name, $content = '', $placeholder = '', $disabled = false)
+    public function mount( $label = '', $placeholder = '', $disabled = false, $size = 'md')
     {
-        $this->name = $name;
-        $this->content = $content;
         $this->placeholder = $placeholder;
         $this->disabled = $disabled;
+        $this->label = $label;
+        $this->size = $size;
     }
 
     public function resetEditor($content)
@@ -31,7 +34,6 @@ new class extends Component {
         $this->disabled = $isEnabled;
         $this->dispatch('quill-toggle-disable', ['disabled' => $isEnabled]);
     }
-
 }; ?>
 
 <div wire:ignore>
@@ -78,7 +80,8 @@ new class extends Component {
                 quillEditor.enable(e[0].disabled);
             });
         ">
-        <div x-ref="quillContainer" style="min-height: 150px;"></div>
+        <div class="text-sm font-medium select-none text-zinc-800 dark:text-white mb-1">{{ $label }}</div>
+        <div x-ref="quillContainer" style="min-height: {{ $sizes[$size] }}"></div>
     </div>
-    <input type="hidden" wire:model="content" name="{{ $name }}" id="{{ $name }}">
+    <input type="hidden" wire:model="content">
 </div>

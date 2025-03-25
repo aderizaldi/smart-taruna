@@ -141,7 +141,7 @@ new class extends Component {
     <div class="overflow-hidden rounded-xl border border-neutral-200 dark:border-neutral-700 p-5">
         <h2 class="text-lg font-semibold mb-4">{{ $editMode ? 'Edit User' : 'Tambah User Baru' }}</h2>
 
-        <form wire:submit.prevent="{{ $editMode ? 'update' : 'store' }}">
+        <form wire:submit="{{ $editMode ? 'update' : 'store' }}">
             <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <flux:input type="text" label="Nama" wire:model="name" />
                 <flux:input type="email" label="Email" wire:model="email" />
@@ -214,7 +214,7 @@ new class extends Component {
     </div>
 
     <!-- Modal Konfirmasi Delete -->
-    <flux:modal wire:model="confirmingUserDeletion" class="min-w-[22rem]">
+    <flux:modal wire:model="confirmingUserDeletion" class="min-w-sm">
         <div class="space-y-6">
             <div>
                 <flux:heading size="lg">Hapus User?</flux:heading>
