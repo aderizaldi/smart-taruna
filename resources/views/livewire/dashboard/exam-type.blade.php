@@ -102,7 +102,7 @@ new class extends Component {
                 </thead>
                 <tbody class="divide-y divide-gray-200 dark:divide-neutral-700">
                     @forelse($types as $type)
-                    <tr wire:key="user-{{ $type->id }}">
+                    <tr wire:key="type-{{ $type->id }}">
                         <td class="px-6 py-4 whitespace-nowrap">{{ $type->name }}</td>
                         <td class="px-6 py-4 whitespace-nowrap">{{ $type->passing_score }}</td>
                         <td class="px-6 py-4 whitespace-nowrap">{{ implode(', ', $type->sections()->pluck('name')->all()) }}</td>

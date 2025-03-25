@@ -121,6 +121,7 @@ new class extends Component {
 
         $this->confirmingUserDeletion = false;
         $this->resetForm();
+        $this->dispatch('showToast', 'success', 'User berhasil dihapus.');
     }
 
     public function with(): array
