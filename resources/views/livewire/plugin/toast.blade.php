@@ -8,7 +8,7 @@ new class extends Component {
      public function showToast($status, $message)
      {
         $this->dispatch('show-toast', [
-        'type' => $status,
+        'status' => $status,
         'message' => $message
         ]);
      }
@@ -19,8 +19,7 @@ new class extends Component {
     @script
     <script>
         $wire.on('show-toast', (event) => {
-            console.log(event);
-            toastr[event[0].type](event[0].message, '', {
+            toastr[event[0].status](event[0].message, '', {
                 "closeButton": true
                 , "debug": false
                 , "newestOnTop": false
@@ -40,4 +39,18 @@ new class extends Component {
         });
     </script>
     @endscript
+
+    @if(session()->has('showToast'))
+    @script
+    <script>
+        let notif = @js(session('showToast'));
+        $nextTick(() => {
+            $wire.$dispatch('showToast', {
+                'status': notif.status
+                , 'message': notif.message
+            });
+        });
+    </script>
+    @endscript
+    @endif
 </div>

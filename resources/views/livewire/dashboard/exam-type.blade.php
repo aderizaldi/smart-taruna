@@ -129,7 +129,7 @@ new class extends Component {
     </div>
 
     {{-- modal tambah jenis soal --}}
-    <flux:modal wire:model="isModalOpen" class="min-w-xl space-y-4">
+    <flux:modal wire:model="isModalOpen" class="min-w-sm md:min-w-xl space-y-4">
         <flux:heading size="lg">Tambah Jenis Soal</flux:heading>
         <form wire:submit="store">
             <div class="space-y-4">

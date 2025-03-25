@@ -60,8 +60,8 @@ new class extends Component {
     public function deleteType(){
         Type::where('id', $this->typeId)->delete();
         $this->closeModal('deleteType');
+        session()->flash('showToast', ['status' => 'success', 'message' => 'Jenis Soal berhasil dihapus.']);
         $this->redirectRoute('dashboard.exam-type');
-        $this->dispatch('showToast', 'success', 'Jenis Soal berhasil dihapus.');
     }
 
     public function updateType(){
@@ -278,7 +278,7 @@ new class extends Component {
     </flux:modal>
 
     {{-- modal edit --}}
-    <flux:modal wire:model="modal.editType" class="min-w-xl space-y-4">
+    <flux:modal wire:model="modal.editType" class="min-w-sm md:min-w-xl space-y-4">
         <flux:heading size="lg">Tambah Jenis Soal</flux:heading>
         <form wire:submit="updateType">
             <div class="space-y-4">
@@ -297,7 +297,7 @@ new class extends Component {
     </flux:modal>
 
     {{-- modal tambah bagian soal --}}
-    <flux:modal wire:model="modal.createSection" class="min-w-xl space-y-4">
+    <flux:modal wire:model="modal.createSection" class="min-w-sm md:min-w-xl space-y-4">
         <flux:heading size="lg">Tambah Bagian Soal</flux:heading>
         <form wire:submit="storeSection">
             <div class="space-y-4">
@@ -324,7 +324,7 @@ new class extends Component {
     </flux:modal>
 
     {{-- modal edit bagian soal --}}
-    <flux:modal wire:model="modal.editSection" class="min-w-xl space-y-4">
+    <flux:modal wire:model="modal.editSection" class="min-w-sm md:min-w-xl space-y-4">
         <flux:heading size="lg">Edit Bagian Soal</flux:heading>
         <form wire:submit="updateSection">
             <div class="space-y-4">
