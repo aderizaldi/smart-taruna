@@ -25,6 +25,7 @@ new class extends Component {
     public $sectionScoringType = "right_or_wrong";
     public $sectionRightAnswerPoint = null;
     public $sectionWrongAnswerPoint = null;
+    public $sectionTotalOptions = 5;
 
     public $search = '';
     public $perPage = 10;
@@ -49,6 +50,7 @@ new class extends Component {
             $this->sectionScoringType = $section->scoring_type;
             $this->sectionRightAnswerPoint = $section->right_answer_point;
             $this->sectionWrongAnswerPoint = $section->wrong_answer_point;
+            $this->sectionTotalOptions = $section->total_options;
         }
         $this->modal[$modal] = true;
     }
@@ -110,6 +112,7 @@ new class extends Component {
             'sectionScoringType' => 'required',
             'sectionRightAnswerPoint' => 'required_if:sectionScoringType,right_or_wrong',
             'sectionWrongAnswerPoint' => 'required_if:sectionScoringType,right_or_wrong',
+            'sectionTotalOptions' => 'required|numeric',
         ]);
 
         Section::create([
@@ -120,6 +123,7 @@ new class extends Component {
             'scoring_type' => $this->sectionScoringType,
             'right_answer_point' => $this->sectionScoringType == "right_or_wrong" ? $this->sectionRightAnswerPoint : null,
             'wrong_answer_point' => $this->sectionScoringType == "right_or_wrong" ? $this->sectionWrongAnswerPoint : null,
+            'total_options' => $this->sectionTotalOptions
      ]);
 
         $this->closeModal('createSection');
@@ -140,6 +144,7 @@ new class extends Component {
             'sectionScoringType' => 'required',
             'sectionRightAnswerPoint' => 'required_if:sectionScoringType,right_or_wrong',
             'sectionWrongAnswerPoint' => 'required_if:sectionScoringType,right_or_wrong',
+            'sectionTotalOptions' => 'required|numeric',
         ]);
 
         Section::where('id', $this->sectionId)->update([
@@ -149,6 +154,7 @@ new class extends Component {
             'scoring_type' => $this->sectionScoringType,
             'right_answer_point' => $this->sectionScoringType == "right_or_wrong" ? $this->sectionRightAnswerPoint : null,
             'wrong_answer_point' => $this->sectionScoringType == "right_or_wrong" ? $this->sectionWrongAnswerPoint : null,
+            'total_options' => $this->sectionTotalOptions
         ]);
 
         $this->closeModal('editSection');
@@ -215,6 +221,8 @@ new class extends Component {
                         </th>
                         <th scope="col" class="px-6 py-3 text-left text-xs font-medium tracking-wider">Cara Penilaian
                         </th>
+                        <th scope="col" class="px-6 py-3 text-left text-xs font-medium tracking-wider">Banyak Opsi
+                        </th>
                         <th scope="col" class="px-6 py-3 text-right text-xs font-medium tracking-wider">Aksi
                         </th>
                     </tr>
@@ -225,13 +233,14 @@ new class extends Component {
                         <td class="px-6 py-4 whitespace-nowrap">{{ $section->name }}</td>
                         <td class="px-6 py-4">{!! strip_tags($section->description) == '' ? '-' : $section->description !!}</td>
                         <td class="px-6 py-4 whitespace-nowrap">{{ $section->passing_score }}</td>
-                        <td class="px-6 py-4 whitespace-nowrap">
+                        <td class="px-6 py-4">
                             @if($section->scoring_type == "right_or_wrong")
                             Benar/Salah (Benar = {{ $section->right_answer_point }}, Salah = {{ $section->wrong_answer_point }})
                             @elseif($section->scoring_type == "point")
                             Poin
                             @endif
                         </td>
+                        <td class="px-6 py-4 whitespace-nowrap">{{ $section->total_options }}</td>
                         <td class="px-6 py-4 whitespace-nowrap text-right">
                             <flux:button type="button" wire:click="openModal('editSection', {{ $section->id }})" size="xs">Edit
                             </flux:button>
@@ -312,6 +321,12 @@ new class extends Component {
                 <flux:input type="number" label="Nilai Benar" wire:model="sectionRightAnswerPoint" />
                 <flux:input type="number" label="Nilai Salah" wire:model="sectionWrongAnswerPoint" />
                 @endif
+                <flux:select label="Banyak Opsi" wire:model="sectionTotalOptions" placeholder="Pilih banyak opsi jawaban...">
+                    <flux:select.option value="3">3</flux:select.option>
+                    <flux:select.option value="4">4</flux:select.option>
+                    <flux:select.option value="5">5</flux:select.option>
+                    <flux:select.option value="6">6</flux:select.option>
+                </flux:select>
             </div>
             <div class="flex gap-2 mt-4">
                 <flux:spacer />
@@ -339,6 +354,12 @@ new class extends Component {
                 <flux:input type="number" label="Nilai Benar" wire:model="sectionRightAnswerPoint" />
                 <flux:input type="number" label="Nilai Salah" wire:model="sectionWrongAnswerPoint" />
                 @endif
+                <flux:select label="Banyak Opsi" wire:model="sectionTotalOptions" placeholder="Pilih banyak opsi jawaban...">
+                    <flux:select.option value="3">3</flux:select.option>
+                    <flux:select.option value="4">4</flux:select.option>
+                    <flux:select.option value="5">5</flux:select.option>
+                    <flux:select.option value="6">6</flux:select.option>
+                </flux:select>
             </div>
             <div class="flex gap-2 mt-4">
                 <flux:spacer />

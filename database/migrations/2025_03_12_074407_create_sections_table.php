@@ -20,6 +20,7 @@ return new class extends Migration
             $table->integer('wrong_answer_point')->nullable(); //if scoring type is right_or_wrong
             $table->integer('right_answer_point')->nullable(); //if scoring type is right_or_wrong
             $table->integer('passing_score')->nullable();
+            $table->integer('total_options')->default(5);
             $table->timestamps();
         });
     }
