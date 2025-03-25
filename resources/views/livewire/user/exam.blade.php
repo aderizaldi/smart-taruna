@@ -80,17 +80,19 @@ new #[Layout('components.layouts.exam')] class extends Component {
                             @endfor
                     </div>
                 </flux:container>
-                <flux:container>
-                    {{-- timer --}}
+                <flux:container x-data="countdownTimer(110 * 60)" x-init="startCountdown()">
+                    {{-- Timer --}}
                     <div class="flex justify-center items-center gap-2">
                         <flux:icon.clock class="size-5 text-[#20327A]"></flux:icon.clock>
-                        <p class="text-[#20327A] text-xl font-bold">00:00:00</p>
+                        <p class="text-[#20327A] text-xl font-bold" x-text="formattedTime"></p>
                     </div>
                 </flux:container>
                 <flux:container>
-                    <flux:button class="w-full" variant="danger">
-                        Submit
-                    </flux:button>
+                    <flux:modal.trigger name="confirm-submit">
+                        <flux:button class="w-full" variant="danger">
+                            Submit
+                        </flux:button>
+                    </flux:modal.trigger>
                 </flux:container>
             </div>
         </div>
@@ -99,4 +101,59 @@ new #[Layout('components.layouts.exam')] class extends Component {
         <p class="text-xs">© Ngoding House {{ date('Y') }}</p>
     </flux:container>
 
+    <!-- Modal Konfirmasi Delete -->
+    <flux:modal name="confirm-submit" class="min-w-[22rem]">
+        <div class="space-y-6">
+            <div>
+                <flux:heading size="lg">Submit Jawaban</flux:heading>
+
+                <flux:subheading>
+                    <p class="font-bold">Apakah Anda yakin ingin submit jawaban anda?</p>
+                    <p class="font-bold">Periksa kembali jawaban anda, jangan sampai ada yang terlewatkan.</p>
+                </flux:subheading>
+            </div>
+
+            <div class="flex gap-2">
+                <flux:spacer />
+
+                <flux:modal.close>
+                    <flux:button variant="ghost">Batal</flux:button>
+                </flux:modal.close>
+
+                <flux:button variant="primary" wire:click="delete">Finish & Submit</flux:button>
+            </div>
+        </div>
+    </flux:modal>
+
 </div>
+
+<script>
+    function countdownTimer(duration) {
+        return {
+            timeLeft: duration
+            , formattedTime: "00:00:00"
+            , startCountdown() {
+                this.updateTime();
+                let interval = setInterval(() => {
+                    if (this.timeLeft <= 0) {
+                        clearInterval(interval);
+                        this.formattedTime = "00:00:00";
+                        return;
+                    }
+                    this.timeLeft--;
+                    this.updateTime();
+                }, 1000);
+            }
+            , updateTime() {
+                let hours = Math.floor(this.timeLeft / 3600);
+                let minutes = Math.floor((this.timeLeft % 3600) / 60);
+                let seconds = this.timeLeft % 60;
+                this.formattedTime =
+                    String(hours).padStart(2, '0') + ":" +
+                    String(minutes).padStart(2, '0') + ":" +
+                    String(seconds).padStart(2, '0');
+            }
+        };
+    }
+
+</script>
