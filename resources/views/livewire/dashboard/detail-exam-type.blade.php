@@ -60,7 +60,7 @@ new class extends Component {
     public function deleteType(){
         Type::where('id', $this->typeId)->delete();
         $this->closeModal('deleteType');
-        session()->flash('showToast', ['status' => 'success', 'message' => 'Jenis Soal berhasil dihapus.']);
+        session()->flash('showToast', ['status' => 'success', 'message' => 'Jenis Ujian berhasil dihapus.']);
         $this->redirectRoute('dashboard.exam-type');
     }
 
@@ -78,7 +78,7 @@ new class extends Component {
         ]);
 
         $this->closeModal('editType');
-        $this->dispatch('showToast', 'success', 'Jenis Soal berhasil diperbarui.');
+        $this->dispatch('showToast', 'success', 'Jenis Ujian berhasil diperbarui.');
     }
 
     public function getSections(){
@@ -159,13 +159,13 @@ new class extends Component {
 <div class="flex h-full w-full flex-1 flex-col gap-4 rounded-xl">
     <flux:breadcrumbs>
         <flux:breadcrumbs.item href="{{ route('dashboard') }}">Dashboard</flux:breadcrumbs.item>
-        <flux:breadcrumbs.item href="{{ route('dashboard.exam-type') }}">Jenis Soal</flux:breadcrumbs.item>
-        <flux:breadcrumbs.item href="#">Detail Jenis Soal</flux:breadcrumbs.item>
+        <flux:breadcrumbs.item href="{{ route('dashboard.exam-type') }}">Jenis Ujian</flux:breadcrumbs.item>
+        <flux:breadcrumbs.item href="#">Detail Jenis Ujian</flux:breadcrumbs.item>
     </flux:breadcrumbs>
 
     <div class="overflow-hidden rounded-xl border border-neutral-200 dark:border-neutral-700 p-5">
         <div class="flex justify-between items-center mb-4">
-            <h2 class="text-lg font-semibold">Detail Jenis Soal</h2>
+            <h2 class="text-lg font-semibold">Detail Jenis Ujian</h2>
             <flux:dropdown>
                 <flux:button icon-trailing="chevron-down" size="sm">Aksi</flux:button>
                 <flux:menu>
@@ -176,7 +176,7 @@ new class extends Component {
         </div>
         <div class="grid grid-cols-1 lg:grid-cols-3 gap-2">
             <div>
-                <flux:heading>Jenis Soal</flux:heading>
+                <flux:heading>Jenis Ujian</flux:heading>
                 <flux:text class="mt-2">{{ $typeName }}</flux:text>
             </div>
             <div>
@@ -193,11 +193,11 @@ new class extends Component {
     <flux:separator />
 
     <div class="flex justify-end items-center">
-        <flux:button type="button" variant="primary" wire:click="openModal('createSection')">Tambah Bagian Soal</flux:button>
+        <flux:button type="button" variant="primary" wire:click="openModal('createSection')">Tambah Bagian Ujian</flux:button>
     </div>
     <div class="overflow-hidden rounded-xl border border-neutral-200 dark:border-neutral-700 p-5">
         <div class="flex justify-between items-center mb-4">
-            <h2 class="text-lg font-semibold">Daftar Bagian Soal</h2>
+            <h2 class="text-lg font-semibold">Daftar Bagian Ujian</h2>
             <div class="flex items-center">
                 <flux:input type="search" wire:model.live.debounce.250ms="search" placeholder="Cari..." class="mr-2" />
             </div>
@@ -207,7 +207,7 @@ new class extends Component {
             <table class="min-w-full divide-y divide-gray-200 dark:divide-neutral-700">
                 <thead>
                     <tr>
-                        <th scope="col" class="px-6 py-3 text-left text-xs font-medium tracking-wider">Bagian Soal
+                        <th scope="col" class="px-6 py-3 text-left text-xs font-medium tracking-wider">Bagian Ujian
                         </th>
                         <th scope="col" class="px-6 py-3 text-left text-xs font-medium tracking-wider">Deskripsi
                         </th>
@@ -261,10 +261,10 @@ new class extends Component {
     <flux:modal wire:model="modal.deleteType" class="min-w-sm">
         <div class="space-y-4">
             <div>
-                <flux:heading size="lg">Hapus Jenis Soal?</flux:heading>
+                <flux:heading size="lg">Hapus Jenis Ujian?</flux:heading>
                 <flux:subheading>
-                    <p>Apakah Anda yakin ingin menghapus jenis soal ini.</p>
-                    <p>Semua data yang berkaitan dengan jenis soal ini akan dihapus.</p>
+                    <p>Apakah Anda yakin ingin menghapus jenis ujian ini.</p>
+                    <p>Semua data yang berkaitan dengan jenis ujian ini akan dihapus.</p>
                 </flux:subheading>
             </div>
             <div class="flex gap-2">
@@ -279,10 +279,10 @@ new class extends Component {
 
     {{-- modal edit --}}
     <flux:modal wire:model="modal.editType" class="min-w-sm md:min-w-xl space-y-4">
-        <flux:heading size="lg">Tambah Jenis Soal</flux:heading>
+        <flux:heading size="lg">Tambah Jenis Ujian</flux:heading>
         <form wire:submit="updateType">
             <div class="space-y-4">
-                <flux:input label="Jenis Soal" wire:model="typeName" />
+                <flux:input label="Jenis Ujian" wire:model="typeName" />
                 <livewire:plugin.text-editor label="Deskripsi" wire:model="typeDescription" size="xs" />
                 <flux:input type="number" label="Nilai Kelulusan" wire:model="typePassingScore" />
             </div>
@@ -296,12 +296,12 @@ new class extends Component {
         </form>
     </flux:modal>
 
-    {{-- modal tambah bagian soal --}}
+    {{-- modal tambah bagian ujian --}}
     <flux:modal wire:model="modal.createSection" class="min-w-sm md:min-w-xl space-y-4">
-        <flux:heading size="lg">Tambah Bagian Soal</flux:heading>
+        <flux:heading size="lg">Tambah Bagian Ujian</flux:heading>
         <form wire:submit="storeSection">
             <div class="space-y-4">
-                <flux:input label="Jenis Soal" wire:model="sectionName" />
+                <flux:input label="Jenis Ujian" wire:model="sectionName" />
                 <livewire:plugin.text-editor label="Deskripsi" wire:model="sectionDescription" size="xs" />
                 <flux:input type="number" label="Nilai Kelulusan" wire:model="sectionPassingScore" />
                 <flux:select label="Cara Penilaian" wire:model.live="sectionScoringType" placeholder="Pilih cara penilaian...">
@@ -323,12 +323,12 @@ new class extends Component {
         </form>
     </flux:modal>
 
-    {{-- modal edit bagian soal --}}
+    {{-- modal edit bagian ujian --}}
     <flux:modal wire:model="modal.editSection" class="min-w-sm md:min-w-xl space-y-4">
-        <flux:heading size="lg">Edit Bagian Soal</flux:heading>
+        <flux:heading size="lg">Edit Bagian Ujian</flux:heading>
         <form wire:submit="updateSection">
             <div class="space-y-4">
-                <flux:input label="Jenis Soal" wire:model="sectionName" />
+                <flux:input label="Jenis Ujian" wire:model="sectionName" />
                 <livewire:plugin.text-editor label="Deskripsi" wire:model="sectionDescription" size="xs" />
                 <flux:input type="number" label="Nilai Kelulusan" wire:model="sectionPassingScore" />
                 <flux:select label="Cara Penilaian" wire:model.live="sectionScoringType" placeholder="Pilih cara penilaian...">
@@ -350,14 +350,14 @@ new class extends Component {
         </form>
     </flux:modal>
 
-    {{-- modal hapus bagian soal --}}
+    {{-- modal hapus bagian ujian --}}
     <flux:modal wire:model="modal.deleteSection" class="min-w-sm">
         <div class="space-y-4">
             <div>
-                <flux:heading size="lg">Hapus Bagian Soal?</flux:heading>
+                <flux:heading size="lg">Hapus Bagian Ujian?</flux:heading>
                 <flux:subheading>
-                    <p>Apakah Anda yakin ingin menghapus bagian soal ini.</p>
-                    <p>Semua data yang berkaitan dengan bagian soal ini akan dihapus.</p>
+                    <p>Apakah Anda yakin ingin menghapus bagian ujian ini.</p>
+                    <p>Semua data yang berkaitan dengan bagian ujian ini akan dihapus.</p>
                 </flux:subheading>
             </div>
             <div class="flex gap-2">

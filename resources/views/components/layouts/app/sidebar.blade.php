@@ -17,9 +17,13 @@
             <flux:navlist.group :heading="__('Platform')" class="grid">
                 <flux:navlist.item icon="home" :href="route('dashboard')" :current="request()->routeIs('dashboard')" wire:navigate>{{ __('Dashboard') }}</flux:navlist.item>
                 @role('admin')
-                <flux:navlist.item icon="document-duplicate" :href="route('dashboard.exam-type')" :current="request()->routeIs('dashboard.exam-type*')" wire:navigate>
-                    Jenis Soal</flux:navlist.item>
-                <flux:navlist.item icon="users" :href="route('dashboard.user-management')" :current="request()->routeIs('dashboard.user-management*')" wire:navigate>
+                <flux:navlist.item icon="rectangle-stack" :href="route('dashboard.exam-type')" :current="request()->routeIs('dashboard.exam-type') || request()->routeIs('dashboard.exam-type/*')" wire:navigate>
+                    Jenis Ujian</flux:navlist.item>
+                <flux:navlist.item icon="cube" :href="route('dashboard.exam-package')" :current="request()->routeIs('dashboard.exam-package') || request()->routeIs('dashboard.exam-package/*')" wire:navigate>
+                    Paket Ujian</flux:navlist.item>
+                <flux:navlist.item icon="document-text" :href="route('dashboard.exam')" :current="request()->routeIs('dashboard.exam') || request()->routeIs('dashboard.exam/*')" wire:navigate>
+                    Soal Ujian</flux:navlist.item>
+                <flux:navlist.item icon="users" :href="route('dashboard.user-management')" :current="request()->routeIs('dashboard.user-management') || request()->routeIs('dashboard.user-management/*')" wire:navigate>
                     Manajemen User</flux:navlist.item>
                 <flux:navlist.group expandable heading="Landing Page" :expanded="request()->routeIs('dashboard.landing-page-management*') || request()->routeIs('dashboard.gallery') || request()->routeIs('dashboard.achievement')">
                     <flux:navlist.item icon="cog-6-tooth" :href="route('dashboard.landing-page-management')" :current="request()->routeIs('dashboard.landing-page-management*')" wire:navigate>Profil</flux:navlist.item>

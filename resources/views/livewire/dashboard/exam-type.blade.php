@@ -56,7 +56,7 @@ new class extends Component {
 
         $this->closeModal();
         $this->reset(['name', 'description', 'passingScore']);
-        $this->dispatch('showToast', 'success', 'Jenis Soal berhasil ditambahkan.');
+        $this->dispatch('showToast', 'success', 'Jenis Ujian berhasil ditambahkan.');
     }
 
     public function with() : array {
@@ -70,17 +70,17 @@ new class extends Component {
 <div class="flex h-full w-full flex-1 flex-col gap-4 rounded-xl">
     <flux:breadcrumbs>
         <flux:breadcrumbs.item href="{{ route('dashboard') }}">Dashboard</flux:breadcrumbs.item>
-        <flux:breadcrumbs.item href="#">Jenis Soal</flux:breadcrumbs.item>
+        <flux:breadcrumbs.item href="#">Jenis Ujian</flux:breadcrumbs.item>
     </flux:breadcrumbs>
 
     {{-- Button tambah jenis soal --}}
     <div class="flex justify-end items-center">
-        <flux:button type="button" variant="primary" wire:click="openModal">Tambah Jenis Soal</flux:button>
+        <flux:button type="button" variant="primary" wire:click="openModal">Tambah Jenis Ujian</flux:button>
     </div>
 
     <div class="overflow-hidden rounded-xl border border-neutral-200 dark:border-neutral-700 p-5">
         <div class="flex justify-between items-center mb-4">
-            <h2 class="text-lg font-semibold">Daftar Jenis Soal</h2>
+            <h2 class="text-lg font-semibold">Daftar Jenis Ujian</h2>
             <div class="flex items-center">
                 <flux:input type="search" wire:model.live.debounce.250ms="search" placeholder="Cari..." class="mr-2" />
             </div>
@@ -90,11 +90,11 @@ new class extends Component {
             <table class="min-w-full divide-y divide-gray-200 dark:divide-neutral-700">
                 <thead>
                     <tr>
-                        <th scope="col" class="px-6 py-3 text-left text-xs font-medium tracking-wider">Jenis Soal
+                        <th scope="col" class="px-6 py-3 text-left text-xs font-medium tracking-wider">Jenis Ujian
                         </th>
                         <th scope="col" class="px-6 py-3 text-left text-xs font-medium tracking-wider">Nilai Kelulusan
                         </th>
-                        <th scope="col" class="px-6 py-3 text-left text-xs font-medium tracking-wider">Bagian Soal
+                        <th scope="col" class="px-6 py-3 text-left text-xs font-medium tracking-wider">Bagian Ujian
                         </th>
                         <th scope="col" class="px-6 py-3 text-right text-xs font-medium tracking-wider">Aksi
                         </th>
@@ -130,10 +130,10 @@ new class extends Component {
 
     {{-- modal tambah jenis soal --}}
     <flux:modal wire:model="isModalOpen" class="min-w-sm md:min-w-xl space-y-4">
-        <flux:heading size="lg">Tambah Jenis Soal</flux:heading>
+        <flux:heading size="lg">Tambah Jenis Ujian</flux:heading>
         <form wire:submit="store">
             <div class="space-y-4">
-                <flux:input label="Jenis Soal" wire:model="name" />
+                <flux:input label="Jenis Ujian" wire:model="name" />
                 <livewire:plugin.text-editor label="Deskripsi" wire:model="description" size="xs" />
                 <flux:input type="number" label="Nilai Kelulusan" wire:model="passingScore" />
             </div>

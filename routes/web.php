@@ -22,7 +22,7 @@ Route::view('dashboard', 'dashboard')
 
 Route::middleware(['auth'])->group(function () {
     Route::redirect('settings', 'settings/profile');
-    
+
     Volt::route('settings/profile', 'settings.profile')->name('settings.profile');
     Volt::route('settings/password', 'settings.password')->name('settings.password');
     Volt::route('settings/appearance', 'settings.appearance')->name('settings.appearance');
@@ -35,6 +35,8 @@ Route::middleware(['auth', 'role:admin'])->group(function () {
     Volt::route('dashboard/achievement', 'dashboard.achievement-management')->name('dashboard.achievement');
     Volt::route('dashboard/exam-type', 'dashboard.exam-type')->name('dashboard.exam-type');
     Volt::route('dashboard/exam-type/{type}', 'dashboard.detail-exam-type')->name('dashboard.detail-exam-type');
+    Volt::route('dashboard/exam-package', 'dashboard.exam-package')->name('dashboard.exam-package');
+    Volt::route('dashboard/exam', 'dashboard.exam')->name('dashboard.exam');
 });
 
 Route::middleware(['auth', 'role:user'])->group(function () {
