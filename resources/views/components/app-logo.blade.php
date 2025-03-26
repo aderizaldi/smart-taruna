@@ -3,5 +3,5 @@
 </div>
 <div class="ml-1 grid flex-1 text-left text-sm text-[#20327A]">
 
-    <span class="mb-0.5 truncate leading-none font-bold">Smart Taruna</span>
+    <span class="mb-0.5 truncate leading-none font-bold">SMART TARUNA</span>
 </div>

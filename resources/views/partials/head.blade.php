@@ -13,7 +13,10 @@
 {{-- toastr --}}
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css">
 
-@stack('custom-css')
+{{-- swiper --}}
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper/swiper-bundle.min.css">
+
+@stack('custom-scripts')
 
 @vite(['resources/css/app.css', 'resources/js/app.js'])
 {{-- @fluxAppearance --}}

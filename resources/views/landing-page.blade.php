@@ -37,7 +37,7 @@
                 text-[#20327A] font-bold">Welcome!<flux:icon.user-circle variant="solid" class="size-10 ms-2"></flux:icon.user-circle></span>
     </flux:container>
 
-    <flux:container class="lg:flex justify-between items-center mt-10 w-full bg-cover bg-center" style="background-image: url('{{ asset('assets/indonesia.png') }}');">
+    <flux:container class="md:flex justify-between items-center mt-10 w-full bg-cover bg-center" style="background-image: url('{{ asset('assets/indonesia.png') }}');">
         <div class="columns-md text-balance p-12">
             <p class="text-[#20327A] text-6xl font-extrabold">SMART TARUNA</p>
             <div class="lg:w-1/2 my-5 text-[#20327A]! text-2xl!">

@@ -44,6 +44,7 @@ new class extends Component {
         ]);
         $this->dispatch('updated');
         $this->resetForm();
+        $this->dispatch('showToast', 'success', 'Data berhasil disimpan.');
     }
 
     public function edit($id){

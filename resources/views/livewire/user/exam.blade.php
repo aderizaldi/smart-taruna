@@ -39,8 +39,8 @@ new #[Layout('components.layouts.exam')] class extends Component {
         <img src="{{ asset('assets/smart_taruna_logo.png') }}" alt="primamarta_logo_nav" class="object-fill w-15">
     </flux:container>
     <flux:container class="my-10">
-        <div class="grid grid-cols-3 gap-10">
-            <div class="flex flex-col col-span-2 gap-5">
+        <div class="grid md:grid-cols-3 gap-10">
+            <div class="flex flex-col md:col-span-2 gap-5">
                 <flux:container>
                     <p class="text-[#20327A] text-xl font-bold mb-1">Soal Nomor {{ $current_question }}</p>
                 </flux:container>

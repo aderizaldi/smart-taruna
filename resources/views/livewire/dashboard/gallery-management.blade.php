@@ -33,6 +33,7 @@ new class extends Component {
         $this->dispatch('saved');
         $this->image = [];
         $this->imageId = null;
+        $this->dispatch('showToast', 'success', 'Data berhasil disimpan.');
     }
 
     public function delete(){

@@ -32,8 +32,8 @@
                 </flux:navlist.group>
                 @endrole
                 @role('user')
-                <flux:navlist.item icon="clipboard-document-list" :href="route('user.exam')" :current="request()->routeIs('user.exam*')" wire:navigate>
-                    Exam</flux:navlist.item>
+                <flux:navlist.item icon="rectangle-stack" :href="route('user.package')" :current="request()->routeIs('user.package*')" wire:navigate>
+                    Paket Pembelajaran</flux:navlist.item>
                 @endrole
             </flux:navlist.group>
         </flux:navlist>
