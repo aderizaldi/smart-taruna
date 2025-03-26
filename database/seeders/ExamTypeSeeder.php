@@ -20,23 +20,28 @@ class ExamTypeSeeder extends Seeder
             ['name' => 'TKP', 'scoring_type' => 'point', 'passing_score' => 166],
         ]);
 
+        $typeSKB = Type::create(['name' => 'SKB', 'passing_score' => 0]);
+        $typeSKB->sections()->createMany([
+            ['name' => 'SKB', 'scoring_type' => 'point', 'passing_score' => 0],
+        ]);
+
         $typeTPA = Type::create(['name' => 'TPA', 'passing_score' => 0]);
         $typeTPA->sections()->createMany([
             ['name' => 'Psikotes', 'scoring_type' => 'point', 'passing_score' => 0],
         ]);
 
-        $typeTryOutSKD = Type::create(['name' => 'Try Out SKD', 'passing_score' => 65]);
-        $typeTryOutSKD->sections()->createMany([
-            ['name' => 'SKD', 'scoring_type' => 'right_or_wrong', 'wrong_answer_point' => 0, 'right_answer_point' => 5, 'passing_score' => 65],
+        $typeTryOutTWK = Type::create(['name' => 'Try Out TWK', 'passing_score' => 65]);
+        $typeTryOutTWK->sections()->createMany([
+            ['name' => 'TWK', 'scoring_type' => 'right_or_wrong', 'wrong_answer_point' => 0, 'right_answer_point' => 5, 'passing_score' => 65],
         ]);
 
-        $typeTryOutTPA = Type::create(['name' => 'Try Out TIU', 'passing_score' => 80]);
-        $typeTryOutTPA->sections()->createMany([
+        $typeTryOutTIU = Type::create(['name' => 'Try Out TIU', 'passing_score' => 80]);
+        $typeTryOutTIU->sections()->createMany([
             ['name' => 'TIU', 'scoring_type' => 'right_or_wrong', 'wrong_answer_point' => 0, 'right_answer_point' => 5, 'passing_score' => 80],
         ]);
 
-        $typeTryOutTPA = Type::create(['name' => 'Try Out TKP', 'passing_score' => 166]);
-        $typeTryOutTPA->sections()->createMany([
+        $typeTryOutTKP = Type::create(['name' => 'Try Out TKP', 'passing_score' => 166]);
+        $typeTryOutTKP->sections()->createMany([
             ['name' => 'TKP', 'scoring_type' => 'right_or_wrong', 'wrong_answer_point' => 0, 'right_answer_point' => 5, 'passing_score' => 166],
         ]);
     }
