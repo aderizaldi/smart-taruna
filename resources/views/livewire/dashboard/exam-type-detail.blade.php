@@ -126,6 +126,15 @@ new class extends Component {
             'total_options' => $this->sectionTotalOptions
      ]);
 
+        $this->reset([
+            'sectionName',
+            'sectionDescription',
+            'sectionPassingScore',
+            'sectionScoringType',
+            'sectionRightAnswerPoint',
+            'sectionWrongAnswerPoint',
+            'sectionTotalOptions',
+        ]);
         $this->closeModal('createSection');
         $this->dispatch('showToast', 'success', 'Section berhasil ditambahkan.');
      }

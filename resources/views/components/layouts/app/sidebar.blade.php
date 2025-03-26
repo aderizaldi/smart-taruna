@@ -17,7 +17,7 @@
             <flux:navlist.group :heading="__('Platform')" class="grid">
                 <flux:navlist.item icon="home" :href="route('dashboard')" :current="request()->routeIs('dashboard')" wire:navigate>{{ __('Dashboard') }}</flux:navlist.item>
                 @role('admin')
-                <flux:navlist.item icon="rectangle-stack" :href="route('dashboard.exam-type')" :current="request()->routeIs('dashboard.exam-type') || request()->routeIs('dashboard.detail-exam-type')" wire:navigate>
+                <flux:navlist.item icon="rectangle-stack" :href="route('dashboard.exam-type')" :current="request()->routeIs('dashboard.exam-type') || request()->routeIs('dashboard.exam-type-detail')" wire:navigate>
                     Jenis Ujian</flux:navlist.item>
                 <flux:navlist.item icon="cube" :href="route('dashboard.exam-package')" :current="request()->routeIs('dashboard.exam-package')" wire:navigate>
                     Paket Ujian</flux:navlist.item>
