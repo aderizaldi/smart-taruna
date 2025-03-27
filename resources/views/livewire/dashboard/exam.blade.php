@@ -5,6 +5,8 @@ use Livewire\WithPagination;
 use Livewire\WithoutUrlPagination;
 use Livewire\WithFileUploads;
 use App\Models\Exam;
+use App\Models\Package;
+use App\Models\Type;
 
 new class extends Component {
     use WithPagination, withoutUrlPagination, withFileUploads;
@@ -20,6 +22,16 @@ new class extends Component {
     public $perPage = 10;
 
     public $isModalOpen = false;
+
+    public $packages;
+    public $types;
+
+    public function mount() {
+        $this->packages = Package::all();
+        $this->types = Type::all();
+        $this->packageId = $this->packages->first()->id;
+        $this->typeId = $this->types->first()->id;
+    }
 
     public function getExams()
     {
@@ -54,12 +66,13 @@ new class extends Component {
             'time' => 'required|numeric',
         ]);
 
-        Type::create([
+        Exam::create([
+            "user_id" => auth()->user()->id,
             "package_id" => $this->packageId,
             "type_id" => $this->typeId,
             "name" => $this->name,
             "description" => $this->description,
-            "image" => $this->image ? save_as_webp($this->image, 'image/type/') : null,
+            "image" => $this->image ? save_as_webp($this->image, 'image/exam/') : null,
             "time" => $this->time
         ]); 
 
@@ -153,14 +166,32 @@ new class extends Component {
         </div>
     </div>
 
-    {{-- modal tambah jenis soal --}}
+    {{-- modal tambah soal ujian --}}
     <flux:modal wire:model="isModalOpen" class="min-w-sm md:min-w-xl space-y-4">
-        <flux:heading size="lg">Tambah Jenis Ujian</flux:heading>
+        <flux:heading size="lg">Tambah Soal Ujian</flux:heading>
         <form wire:submit="store">
             <div class="space-y-4">
-                <flux:input label="Jenis Ujian" wire:model="name" />
+                <flux:select label="Jenis Soal" wire:model="typeId" placeholder="Pilih jenis soal...">
+                    @foreach($types as $type)
+                    <option value="{{ $type->id }}">{{ $type->name }}</option>
+                    @endforeach
+                </flux:select>
+                <flux:select label="Paket Ujian" wire:model="packageId" placeholder="Pilih paket ujian...">
+                    @foreach($packages as $package)
+                    <option value="{{ $package->id }}">{{ $package->name }}</option>
+                    @endforeach
+                </flux:select>
+                <flux:input label="Nama Soal Ujian" wire:model="name" />
                 <livewire:plugin.text-editor label="Deskripsi" wire:model="description" size="xs" />
-                <flux:input type="number" label="Nilai Kelulusan" wire:model="passingScore" />
+                <flux:field>
+                    <flux:label>Waktu</flux:label>
+                    <flux:input.group>
+                        <flux:input wire:model="time" />
+                        <flux:input.group.suffix>Menit</flux:input.group.suffix>
+                    </flux:input.group>
+                    <flux:error name="time" />
+                </flux:field>
+                <flux:input type="file" label="Gambar" wire:model="image" class="overflow-hidden" accept="image/*" description:trailing="Gambar maksimal 2MB" />
             </div>
             <div class="flex gap-2 mt-4">
                 <flux:spacer />

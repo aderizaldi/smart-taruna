@@ -1,9 +1,106 @@
 <?php
 
 use Livewire\Volt\Component;
+use App\Models\Exam;
+use App\Models\Package;
+use App\Models\Type;
 
 new class extends Component {
-    //
+    public $examId;
+    public $examType;
+    public $examTypeId;
+    public $examPackage;
+    public $examPackageId;
+    public $examName;
+    public $examDescription;
+    public $examImage;
+    public $examIsActive;
+    public $examTime;
+
+    public $packages;
+    public $types;
+
+    public $modal =[
+        'editExam' => false,
+        'deleteExam' => false
+    ];
+
+    public function mount(Exam $exam)
+    {
+        $this->examId = $exam->id;
+        $this->examType = $exam->type->name;
+        $this->examTypeId = $exam->type->id;
+        $this->examPackage = $exam->package->name;
+        $this->examPackageId = $exam->package->id;
+        $this->examName = $exam->name;
+        $this->examDescription = $exam->description;
+        $this->examImage = $exam->image;
+        $this->examIsActive = $exam->is_active;
+        $this->examTime = $exam->time;
+
+        $this->packages = Package::all();
+        $this->types = Type::all();
+    }
+
+    public function updateStatus() {
+        Exam::find($this->examId)->update([
+            "is_active" => $this->examIsActive
+        ]);
+
+        $this->dispatch('showToast', 'success', 'Status ujian berhasil' . ($this->examIsActive ? ' diaktifkan' : ' dinonaktifkan') . '.');
+    }
+
+    public function openModal($modal)
+    {
+        $this->modal[$modal] = true;
+    }
+
+    public function closeModal($modal)
+    {
+        $this->modal[$modal] = false;
+    }
+
+    public function updateExam() {
+        $this->validate([
+            'examPackageId' => 'required|exists:packages,id',
+            'examName' => 'required',
+            'examDescription' => 'nullable',
+            'examTime' => 'required',
+            'examImage' => $this->examImage instanceof \Livewire\Features\SupportFileUploads\TemporaryUploadedFile ? 'image|max:2048' : '',
+        ]);
+
+        $exam = Exam::find($this->examId);
+        $examImage = $exam->image;
+
+        if($this->examImage instanceof \Livewire\Features\SupportFileUploads\TemporaryUploadedFile && $exam->image){
+            Storage::delete($exam->image);
+            $examImage = save_as_webp($this->examImage, 'image/exam/');
+        }
+
+        $exam->update([
+            "package_id" => $this->examPackageId,
+            "name" => $this->examName,
+            "description" => $this->examDescription,
+            "image" => $examImage,
+            "time" => $this->examTime
+        ]);
+
+        $this->examPackage = Package::find($this->examPackageId)->name;
+
+        $this->closeModal('editExam');
+        $this->dispatch('showToast', 'success', 'Soal Ujian berhasil diperbarui.');
+    }
+
+    public function deleteExam() {
+        $exam = Exam::find($this->examId);
+        if($exam->image){
+            Storage::delete($exam->image);
+        }
+        $exam->delete();
+         $this->closeModal('deleteExam');
+         session()->flash('showToast', ['status' => 'success', 'message' => 'Soal Ujian berhasil dihapus.']);
+         $this->redirectRoute('dashboard.exam');
+    }
 }; ?>
 
 <div class="flex h-full w-full flex-1 flex-col gap-4 rounded-xl">
@@ -12,4 +109,115 @@ new class extends Component {
         <flux:breadcrumbs.item href="{{ route('dashboard.exam') }}">Soal Ujian</flux:breadcrumbs.item>
         <flux:breadcrumbs.item href="#">Detail Soal Ujian</flux:breadcrumbs.item>
     </flux:breadcrumbs>
+
+    <div class="overflow-hidden rounded-xl border border-neutral-200 dark:border-neutral-700 p-5">
+        <div class="flex justify-between items-center mb-4">
+            <h2 class="text-lg font-semibold">Detail Ujian</h2>
+            <flux:dropdown>
+                <flux:button icon-trailing="chevron-down" size="sm">Aksi</flux:button>
+                <flux:menu>
+                    <flux:menu.item wire:click="openModal('editExam')">Edit</flux:menu.item>
+                    <flux:menu.item variant="danger" wire:click="openModal('deleteExam')">Hapus</flux:menu.item>
+                </flux:menu>
+            </flux:dropdown>
+        </div>
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-2">
+            <div>
+                <flux:heading>Jenis Ujian</flux:heading>
+                <flux:text class="mt-2">{{ $examType }}</flux:text>
+            </div>
+            <div>
+                <flux:heading>Paket</flux:heading>
+                <flux:text class="mt-2">{{ $examPackage }}</flux:text>
+            </div>
+            <div>
+                <flux:heading>Nama Ujian</flux:heading>
+                <flux:text class="mt-2">{{ $examName }}</flux:text>
+            </div>
+            <div>
+                <flux:heading>Deskripsi</flux:heading>
+                <flux:text class="mt-2">{!! strip_tags($examDescription) == '' ? '-' : $examDescription !!}</flux:text>
+            </div>
+            <div>
+                <flux:heading>Waktu Ujian</flux:heading>
+                <flux:text class="mt-2">{{ $examTime }} menit</flux:text>
+            </div>
+            <div>
+                <flux:heading>Gambar</flux:heading>
+                <flux:text class="mt-2">
+                    @if($examImage)
+                    <a href="{{ asset('storage/' . $examImage) }}" target="_blank" class="block size-fit">
+                        <img src="{{ asset('storage/' . $examImage) }}" alt="image" class="h-24 w-24 object-cover">
+                    </a>
+                    @else
+                    -
+                    @endif
+                </flux:text>
+            </div>
+            <div>
+                <flux:heading>Status Ujian</flux:heading>
+                <flux:select wire:model.live="examIsActive" wire:change="updateStatus" placeholder="Pilih status ujian..." size="sm" class="mt-2">
+                    <flux:select.option value="1">Aktif</flux:select.option>
+                    <flux:select.option value="0">Tidak Aktif</flux:select.option>
+                </flux:select>
+            </div>
+        </div>
+    </div>
+
+    {{-- modal edit soal ujian --}}
+    <flux:modal wire:model="modal.editExam" class="min-w-sm md:min-w-xl space-y-4">
+        <flux:heading size="lg">Tambah Soal Ujian</flux:heading>
+        <form wire:submit="updateExam">
+            <div class="space-y-4">
+                <flux:select label="Jenis Soal" wire:model="examTypeId" placeholder="Pilih jenis soal..." disabled>
+                    @foreach($types as $type)
+                    <option value="{{ $type->id }}">{{ $type->name }}</option>
+                    @endforeach
+                </flux:select>
+                <flux:select label="Paket Ujian" wire:model="examPackageId" placeholder="Pilih paket ujian...">
+                    @foreach($packages as $package)
+                    <option value="{{ $package->id }}">{{ $package->name }}</option>
+                    @endforeach
+                </flux:select>
+                <flux:input label="Nama Soal Ujian" wire:model="examName" />
+                <livewire:plugin.text-editor label="Deskripsi" wire:model="examDescription" size="xs" />
+                <flux:field>
+                    <flux:label>Waktu</flux:label>
+                    <flux:input.group>
+                        <flux:input wire:model="examTime" />
+                        <flux:input.group.suffix>Menit</flux:input.group.suffix>
+                    </flux:input.group>
+                    <flux:error name="examTime" />
+                </flux:field>
+                <flux:input type="file" label="Gambar" wire:model="examImage" class="overflow-hidden" accept="image/*" description:trailing="Gambar maksimal 2MB" />
+            </div>
+            <div class="flex gap-2 mt-4">
+                <flux:spacer />
+                <flux:modal.close>
+                    <flux:button variant="ghost">Batal</flux:button>
+                </flux:modal.close>
+                <flux:button type="submit" variant="primary">Simpan</flux:button>
+            </div>
+        </form>
+    </flux:modal>
+
+    {{-- modal delete soal ujian --}}
+    <flux:modal wire:model="modal.deleteExam" class="min-w-sm">
+        <div class="space-y-4">
+            <div>
+                <flux:heading size="lg">Hapus Soal Ujian?</flux:heading>
+                <flux:subheading>
+                    <p>Apakah Anda yakin ingin menghapus soal ujian ini.</p>
+                    <p>Semua data yang berkaitan dengan soal ujian ini akan dihapus.</p>
+                </flux:subheading>
+            </div>
+            <div class="flex gap-2">
+                <flux:spacer />
+                <flux:modal.close>
+                    <flux:button variant="ghost">Batal</flux:button>
+                </flux:modal.close>
+                <flux:button variant="danger" wire:click="deleteExam">Hapus</flux:button>
+            </div>
+        </div>
+    </flux:modal>
 </div>
