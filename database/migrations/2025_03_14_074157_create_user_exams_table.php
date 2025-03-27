@@ -13,8 +13,8 @@ return new class extends Migration
     {
         Schema::create('user_exams', function (Blueprint $table) {
             $table->id();
-            $table->foreignIdFor(\App\Models\User::class)->cascadeOnDelete();
-            $table->foreignIdFor(\App\Models\Exam::class)->cascadeOnDelete();
+            $table->foreignIdFor(\App\Models\User::class)->constrained()->cascadeOnDelete();
+            $table->foreignIdFor(\App\Models\Exam::class)->constrained()->cascadeOnDelete();
             $table->enum('status', ['in_progress', 'completed'])->default('in_progress');
             $table->integer('score')->nullable();
             $table->timestamps();

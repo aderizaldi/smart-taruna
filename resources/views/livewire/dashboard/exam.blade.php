@@ -27,8 +27,8 @@ new class extends Component {
     public $types;
 
     public function mount() {
-        $this->packages = Package::all();
-        $this->types = Type::all();
+        $this->packages = Package::latest()->get();
+        $this->types = Type::latest()->get();
         $this->packageId = $this->packages->first()->id;
         $this->typeId = $this->types->first()->id;
     }
@@ -151,7 +151,7 @@ new class extends Component {
                     </tr>
                     @empty
                     <tr>
-                        <td colspan="4" class="px-6 py-4 whitespace-nowrap">
+                        <td colspan="6" class="px-6 py-4 whitespace-nowrap">
                             <p class="text-center text-sm text-gray-500 dark:text-gray-400">Tidak ada data
                                 tersedia</p>
                         </td>

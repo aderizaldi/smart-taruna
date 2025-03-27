@@ -12,7 +12,7 @@ return new class extends Migration
     public function up(): void
     {
         Schema::table('exams', function (Blueprint $table) {
-            $table->foreignIdFor(\App\Models\Package::class)->cascadeOnDelete()->after('type_id');
+            $table->foreignIdFor(\App\Models\Package::class)->constrained()->cascadeOnDelete()->after('type_id');
         });
     }
 

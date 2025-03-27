@@ -42,8 +42,8 @@ new class extends Component {
         $this->examIsActive = $exam->is_active;
         $this->examTime = $exam->time;
 
-        $this->packages = Package::all();
-        $this->types = Type::all();
+        $this->packages = Package::latest()->get();
+        $this->types = Type::latest()->get();
 
         $this->sections = $exam->type->sections;
         $this->selectedSection = $exam->type->sections->first();
@@ -177,6 +177,7 @@ new class extends Component {
         </div>
     </div>
 
+    @if($sections->count() > 0)
     <div class="overflow-hidden rounded-xl border border-neutral-200 dark:border-neutral-700 p-5">
         <div>
             <ul class="flex items-center gap-2 text-sm font-medium">
@@ -195,6 +196,12 @@ new class extends Component {
             <flux:button type="button" variant="primary" wire:click="openModal('addQuestion')">Tambah Soal</flux:button>
         </div>
     </div>
+    @else
+    <div class="overflow-hidden rounded-xl border border-neutral-200 dark:border-neutral-700 p-5">
+        <flux:text class="mt-2 text-center text-red-600 font-bold">Tidak bisa menambahkan soal.</flux:text>
+        <flux:text class="mt-2 text-center">Harap menambahkan bagian ujian pada jenis ujian ini terlebih dahulu <flux:link href="{{ route('dashboard.exam-type-detail', $examTypeId) }}">disini</flux:link>.</flux:text>
+    </div>
+    @endif
 
     {{-- modal edit soal ujian --}}
     <flux:modal wire:model="modal.editExam" class="min-w-sm md:min-w-xl space-y-4">

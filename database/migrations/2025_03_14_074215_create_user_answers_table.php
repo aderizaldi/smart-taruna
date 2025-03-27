@@ -13,8 +13,8 @@ return new class extends Migration
     {
         Schema::create('user_answers', function (Blueprint $table) {
             $table->id();
-            $table->foreignIdFor(\App\Models\UserExam::class)->cascadeOnDelete();
-            $table->foreignIdFor(\App\Models\Question::class)->cascadeOnDelete();
+            $table->foreignIdFor(\App\Models\UserExam::class)->constrained()->cascadeOnDelete();
+            $table->foreignIdFor(\App\Models\Question::class)->constrained()->cascadeOnDelete();
             $table->integer('order_number');
             $table->foreignIdFor(\App\Models\AnswerChoice::class)->nullable();
             $table->boolean('is_marked')->default(false);

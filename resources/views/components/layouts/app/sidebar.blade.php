@@ -21,7 +21,7 @@
                     Jenis Ujian</flux:navlist.item>
                 <flux:navlist.item icon="cube" :href="route('dashboard.exam-package')" :current="request()->routeIs('dashboard.exam-package')" wire:navigate>
                     Paket Ujian</flux:navlist.item>
-                <flux:navlist.item icon="document-text" :href="route('dashboard.exam')" :current="request()->routeIs('dashboard.exam')" wire:navigate>
+                <flux:navlist.item icon="document-text" :href="route('dashboard.exam')" :current="request()->routeIs('dashboard.exam') || request()->routeIs('dashboard.exam-detail')" wire:navigate>
                     Soal Ujian</flux:navlist.item>
                 <flux:navlist.item icon="users" :href="route('dashboard.user-management')" :current="request()->routeIs('dashboard.user-management')" wire:navigate>
                     Manajemen User</flux:navlist.item>
