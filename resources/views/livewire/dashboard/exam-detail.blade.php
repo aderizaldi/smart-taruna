@@ -4,6 +4,7 @@ use Livewire\Volt\Component;
 use App\Models\Exam;
 use App\Models\Package;
 use App\Models\Type;
+use App\Models\Section;
 
 new class extends Component {
     public $examId;
@@ -19,6 +20,9 @@ new class extends Component {
 
     public $packages;
     public $types;
+
+    public $sections;
+    public $selectedSection;
 
     public $modal =[
         'editExam' => false,
@@ -40,6 +44,9 @@ new class extends Component {
 
         $this->packages = Package::all();
         $this->types = Type::all();
+
+        $this->sections = $exam->type->sections;
+        $this->selectedSection = $exam->type->sections->first();
     }
 
     public function updateStatus() {
@@ -91,7 +98,8 @@ new class extends Component {
         $this->dispatch('showToast', 'success', 'Soal Ujian berhasil diperbarui.');
     }
 
-    public function deleteExam() {
+    public function deleteExam()
+    {
         $exam = Exam::find($this->examId);
         if($exam->image){
             Storage::delete($exam->image);
@@ -100,6 +108,11 @@ new class extends Component {
          $this->closeModal('deleteExam');
          session()->flash('showToast', ['status' => 'success', 'message' => 'Soal Ujian berhasil dihapus.']);
          $this->redirectRoute('dashboard.exam');
+    }
+
+    public function selectSection($sectionId)
+    {
+        $this->selectedSection = Section::find($sectionId);
     }
 }; ?>
 
@@ -112,7 +125,7 @@ new class extends Component {
 
     <div class="overflow-hidden rounded-xl border border-neutral-200 dark:border-neutral-700 p-5">
         <div class="flex justify-between items-center mb-4">
-            <h2 class="text-lg font-semibold">Detail Ujian</h2>
+            <h2 class="text-lg font-semibold">Detail Soal Ujian</h2>
             <flux:dropdown>
                 <flux:button icon-trailing="chevron-down" size="sm">Aksi</flux:button>
                 <flux:menu>
@@ -161,6 +174,25 @@ new class extends Component {
                     <flux:select.option value="0">Tidak Aktif</flux:select.option>
                 </flux:select>
             </div>
+        </div>
+    </div>
+
+    <div class="overflow-hidden rounded-xl border border-neutral-200 dark:border-neutral-700 p-5">
+        <div>
+            <ul class="flex items-center gap-2 text-sm font-medium">
+                @foreach($sections as $section)
+                <li class="flex-1">
+                    <a href="#" class="flex items-center justify-center gap-2 rounded-lg px-3 py-2 text-gray-700 hover:text-gray-700 {{ $section->id == $selectedSection->id ? 'bg-gray-200' : 'hover:bg-gray-100' }}" wire:click="selectSection({{ $section->id }})">
+                        {{ $section->name }}
+                        <span class="rounded-full bg-gray-100 px-2 py-0.5 text-xs font-semibold text-gray-500"> {{ $section->questions->count() }} </span></a>
+                </li>
+                @endforeach
+            </ul>
+        </div>
+
+        <div class="flex flex-col justify-between items-center mb-4 mt-4 gap-2">
+            <h2 class="text-lg font-semibold">Soal {{ $selectedSection->name }}</h2>
+            <flux:button type="button" variant="primary" wire:click="openModal('addQuestion')">Tambah Soal</flux:button>
         </div>
     </div>
 
