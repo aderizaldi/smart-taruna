@@ -5,8 +5,12 @@ use App\Models\Exam;
 use App\Models\Package;
 use App\Models\Type;
 use App\Models\Section;
+use Livewire\WithFileUploads;
 
 new class extends Component {
+    use WithFileUploads;
+
+    public $exam;
     public $examId;
     public $examType;
     public $examTypeId;
@@ -31,6 +35,7 @@ new class extends Component {
 
     public function mount(Exam $exam)
     {
+        $this->exam = $exam;
         $this->examId = $exam->id;
         $this->examType = $exam->type->name;
         $this->examTypeId = $exam->type->id;
@@ -67,6 +72,15 @@ new class extends Component {
         $this->modal[$modal] = false;
     }
 
+    public function resetFormExam() {
+        $this->examPackageId = $this->exam->package_id;
+        $this->examName = $this->exam->name;
+        $this->examDescription = $this->exam->description;
+        $this->examImage = $this->exam->image;
+        $this->examTime = $this->exam->time;
+        $this->dispatch('resetEditor', $this->examDescription);
+    }
+
     public function updateExam() {
         $this->validate([
             'examPackageId' => 'required|exists:packages,id',
@@ -77,10 +91,12 @@ new class extends Component {
         ]);
 
         $exam = Exam::find($this->examId);
-        $examImage = $exam->image;
+        $examImage = $this->examImage;
 
-        if($this->examImage instanceof \Livewire\Features\SupportFileUploads\TemporaryUploadedFile && $exam->image){
-            Storage::delete($exam->image);
+        if($this->examImage instanceof \Livewire\Features\SupportFileUploads\TemporaryUploadedFile){
+            if($exam->image){
+                Storage::delete($exam->image);
+            }
             $examImage = save_as_webp($this->examImage, 'image/exam/');
         }
 
@@ -114,6 +130,10 @@ new class extends Component {
     {
         $this->selectedSection = Section::find($sectionId);
     }
+
+    public function removeImageExam() {
+        $this->examImage = null;
+    }
 }; ?>
 
 <div class="flex h-full w-full flex-1 flex-col gap-4 rounded-xl">
@@ -137,30 +157,30 @@ new class extends Component {
         <div class="grid grid-cols-1 lg:grid-cols-3 gap-2">
             <div>
                 <flux:heading>Jenis Ujian</flux:heading>
-                <flux:text class="mt-2">{{ $examType }}</flux:text>
+                <flux:text class="mt-2">{{ $exam->type->name }}</flux:text>
             </div>
             <div>
                 <flux:heading>Paket</flux:heading>
-                <flux:text class="mt-2">{{ $examPackage }}</flux:text>
+                <flux:text class="mt-2">{{ $exam->package->name }}</flux:text>
             </div>
             <div>
                 <flux:heading>Nama Ujian</flux:heading>
-                <flux:text class="mt-2">{{ $examName }}</flux:text>
+                <flux:text class="mt-2">{{ $exam->name }}</flux:text>
             </div>
             <div>
                 <flux:heading>Deskripsi</flux:heading>
-                <flux:text class="mt-2">{!! strip_tags($examDescription) == '' ? '-' : $examDescription !!}</flux:text>
+                <flux:text class="mt-2">{!! strip_tags($exam->description) == '' ? '-' : $exam->description !!}</flux:text>
             </div>
             <div>
                 <flux:heading>Waktu Ujian</flux:heading>
-                <flux:text class="mt-2">{{ $examTime }} menit</flux:text>
+                <flux:text class="mt-2">{{ $exam->time }} menit</flux:text>
             </div>
             <div>
                 <flux:heading>Gambar</flux:heading>
                 <flux:text class="mt-2">
-                    @if($examImage)
-                    <a href="{{ asset('storage/' . $examImage) }}" target="_blank" class="block size-fit">
-                        <img src="{{ asset('storage/' . $examImage) }}" alt="image" class="h-24 w-24 object-cover">
+                    @if($exam->image)
+                    <a href="{{ asset('storage/' . $exam->image) }}" target="_blank" class="block size-fit">
+                        <img src="{{ asset('storage/' . $exam->image) }}" alt="image" class="h-24 w-24 object-cover">
                     </a>
                     @else
                     -
@@ -204,7 +224,7 @@ new class extends Component {
     @endif
 
     {{-- modal edit soal ujian --}}
-    <flux:modal wire:model="modal.editExam" class="min-w-sm md:min-w-xl space-y-4">
+    <flux:modal wire:model="modal.editExam" class="min-w-sm md:min-w-xl space-y-4" @close="resetFormExam" @cancel="resetFormExam">
         <flux:heading size="lg">Tambah Soal Ujian</flux:heading>
         <form wire:submit="updateExam">
             <div class="space-y-4">
@@ -228,7 +248,17 @@ new class extends Component {
                     </flux:input.group>
                     <flux:error name="examTime" />
                 </flux:field>
-                <flux:input type="file" label="Gambar" wire:model="examImage" class="overflow-hidden" accept="image/*" description:trailing="Gambar maksimal 2MB" />
+                <flux:field>
+                    <flux:label>Gambar</flux:label>
+                    @if($examImage)
+                    <div class="flex gap-2 items-center">
+                        <img src="{{ is_string($examImage) ? asset('storage/' . $examImage) : $examImage->temporaryUrl() }}" alt="{{ $examName }}" class="w-16 h-16 object-cover rounded-lg">
+                        <flux:button type="button" variant="danger" wire:click="removeImageExam" size="xs">Hapus Gambar</flux:button>
+                    </div>
+                    @endif
+                    <flux:input type="file" wire:model="examImage" class="overflow-hidden" accept="image/*" description:trailing="Gambar maksimal 2MB" />
+                    <flux:error name="image" />
+                </flux:field>
             </div>
             <div class="flex gap-2 mt-4">
                 <flux:spacer />

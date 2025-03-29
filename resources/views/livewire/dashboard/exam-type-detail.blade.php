@@ -5,6 +5,7 @@ use App\Models\Type;
 use App\Models\Section;
 
 new class extends Component {
+    public $type;
     public $typeId;
     public $typeName;
     public $typeDescription;
@@ -32,6 +33,7 @@ new class extends Component {
 
     public function mount(Type $type)
     {
+        $this->type = $type;
         $this->typeId = $type->id;
         $this->typeName = $type->name;
         $this->typeDescription = $type->description;
@@ -71,6 +73,13 @@ new class extends Component {
             'totalOptions',
         ]);
         $this->dispatch('resetEditor', $this->description);
+    }
+
+    public function resetFormType(){
+        $this->typeName = $this->type->name;
+        $this->typeDescription = $this->type->description;
+        $this->typePassingScore = $this->type->passing_score;
+        $this->dispatch('resetEditor', $this->typeDescription);
     }
 
     public function deleteType(){
@@ -199,15 +208,15 @@ new class extends Component {
         <div class="grid grid-cols-1 lg:grid-cols-3 gap-2">
             <div>
                 <flux:heading>Jenis Ujian</flux:heading>
-                <flux:text class="mt-2">{{ $typeName }}</flux:text>
+                <flux:text class="mt-2">{{ $type->name }}</flux:text>
             </div>
             <div>
                 <flux:heading>Deskripsi</flux:heading>
-                <flux:text class="mt-2">{!! strip_tags($typeDescription) == '' ? '-' : $typeDescription !!}</flux:text>
+                <flux:text class="mt-2">{!! strip_tags($type->description) == '' ? '-' : $type->description !!}</flux:text>
             </div>
             <div>
                 <flux:heading>Nilai Kelulusan</flux:heading>
-                <flux:text class="mt-2">{{ $typePassingScore }}</flux:text>
+                <flux:text class="mt-2">{{ $type->passing_score }}</flux:text>
             </div>
         </div>
     </div>
@@ -303,8 +312,8 @@ new class extends Component {
     </flux:modal>
 
     {{-- modal edit --}}
-    <flux:modal wire:model="modal.editType" class="min-w-sm md:min-w-xl space-y-4">
-        <flux:heading size="lg">Tambah Jenis Ujian</flux:heading>
+    <flux:modal wire:model="modal.editType" class="min-w-sm md:min-w-xl space-y-4" @close="resetFormType" @cancel="resetFormType">
+        <flux:heading size="lg">Edit Jenis Ujian</flux:heading>
         <form wire:submit="updateType">
             <div class="space-y-4">
                 <flux:input label="Jenis Ujian" wire:model="typeName" />
