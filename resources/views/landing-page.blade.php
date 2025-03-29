@@ -43,7 +43,7 @@
             <div class="lg:w-1/2 my-5 text-[#20327A]! text-2xl!">
                 {!! $landing_page->quote !!}
             </div>
-            <flux:button icon-trailing="arrow-long-right" :href="route('login')" wire:navigate class="rounded-lg w-30 bg-[#20327A]! text-white! hover:bg-[#4054A5]! font-bold! border-none!">
+            <flux:button icon-trailing="arrow-long-right" :href="route('login')" wire:navigate class="rounded-lg w-30 bg-[#20327A]! text-white! hover:bg-[#4054A5]! transition-all duration-300 ease-in-out font-bold! border-none!">
                 Login
             </flux:button>
         </div>
