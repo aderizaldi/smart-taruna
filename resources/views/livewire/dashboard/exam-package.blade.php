@@ -217,7 +217,7 @@ new class extends Component {
     </flux:modal>
 
     {{-- modal edit paket ujian --}}
-    <flux:modal wire:model="modal.edit" class="min-w-sm md:min-w-xl space-y-4" @close="resetForm" @cancel="resetForm">
+    <flux:modal wire:model="modal.edit" class="min-w-sm md:min-w-xl space-y-4">
         <flux:heading size="lg">Edit Paket Ujian</flux:heading>
         <form wire:submit="update">
             <div class="space-y-4">
