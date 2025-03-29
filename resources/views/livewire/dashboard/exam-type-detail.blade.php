@@ -18,14 +18,14 @@ new class extends Component {
         'deleteSection' => false
     ];
 
-    public $sectionId = null;
-    public $sectionName = "";
-    public $sectionDescription = "";
-    public $sectionPassingScore = 0;
-    public $sectionScoringType = "right_or_wrong";
-    public $sectionRightAnswerPoint = null;
-    public $sectionWrongAnswerPoint = null;
-    public $sectionTotalOptions = 5;
+    public $id = null;
+    public $name = "";
+    public $description = "";
+    public $passingScore = 0;
+    public $scoringType = "right_or_wrong";
+    public $rightAnswerPoint = null;
+    public $wrongAnswerPoint = null;
+    public $totalOptions = 5;
 
     public $search = '';
     public $perPage = 10;
@@ -40,17 +40,17 @@ new class extends Component {
     
     public function openModal($modal, $id = null) {
         if($modal == 'deleteSection') {
-            $this->sectionId = $id;
+            $this->id = $id;
         } else if($modal == 'editSection') {
             $section = Section::find($id);
-            $this->sectionId = $section->id;
-            $this->sectionName = $section->name;
-            $this->sectionDescription = $section->description;
-            $this->sectionPassingScore = $section->passing_score;
-            $this->sectionScoringType = $section->scoring_type;
-            $this->sectionRightAnswerPoint = $section->right_answer_point;
-            $this->sectionWrongAnswerPoint = $section->wrong_answer_point;
-            $this->sectionTotalOptions = $section->total_options;
+            $this->id = $section->id;
+            $this->name = $section->name;
+            $this->description = $section->description;
+            $this->passingScore = $section->passing_score;
+            $this->scoringType = $section->scoring_type;
+            $this->rightAnswerPoint = $section->right_answer_point;
+            $this->wrongAnswerPoint = $section->wrong_answer_point;
+            $this->totalOptions = $section->total_options;
         }
         $this->modal[$modal] = true;
     }
@@ -106,55 +106,64 @@ new class extends Component {
 
      public function storeSection(){
         $this->validate([
-            'sectionName' => 'required',
-            'sectionDescription' => 'nullable',
-            'sectionPassingScore' => 'required|numeric',
-            'sectionScoringType' => 'required',
-            'sectionRightAnswerPoint' => 'required_if:sectionScoringType,right_or_wrong',
-            'sectionWrongAnswerPoint' => 'required_if:sectionScoringType,right_or_wrong',
-            'sectionTotalOptions' => 'required|numeric',
+            'name' => 'required',
+            'description' => 'nullable',
+            'passingScore' => 'required|numeric',
+            'scoringType' => 'required',
+            'rightAnswerPoint' => 'required_if:scoringType,right_or_wrong',
+            'wrongAnswerPoint' => 'required_if:scoringType,right_or_wrong',
+            'totalOptions' => 'required|numeric',
         ]);
 
         Section::create([
             'type_id' => $this->typeId,
-            'name' => $this->sectionName,
-            'description' => $this->sectionDescription,
-            'passing_score' => $this->sectionPassingScore,
-            'scoring_type' => $this->sectionScoringType,
-            'right_answer_point' => $this->sectionScoringType == "right_or_wrong" ? $this->sectionRightAnswerPoint : null,
-            'wrong_answer_point' => $this->sectionScoringType == "right_or_wrong" ? $this->sectionWrongAnswerPoint : null,
-            'total_options' => $this->sectionTotalOptions
+            'name' => $this->name,
+            'description' => $this->description,
+            'passing_score' => $this->passingScore,
+            'scoring_type' => $this->scoringType,
+            'right_answer_point' => $this->scoringType == "right_or_wrong" ? $this->rightAnswerPoint : null,
+            'wrong_answer_point' => $this->scoringType == "right_or_wrong" ? $this->wrongAnswerPoint : null,
+            'total_options' => $this->totalOptions
      ]);
 
+        $this->reset([
+            'name',
+            'description',
+            'passingScore',
+            'scoringType',
+            'rightAnswerPoint',
+            'wrongAnswerPoint',
+            'totalOptions',
+        ]);
         $this->closeModal('createSection');
         $this->dispatch('showToast', 'success', 'Section berhasil ditambahkan.');
      }
 
      public function deleteSection(){
-        Section::where('id', $this->sectionId)->delete();
+        Section::where('id', $this->id)->delete();
         $this->closeModal('deleteSection');
         $this->dispatch('showToast', 'success', 'Section berhasil dihapus.');
      }
 
      public function updateSection(){
         $this->validate([
-            'sectionName' => 'required',
-            'sectionDescription' => 'nullable',
-            'sectionPassingScore' => 'required|numeric',
-            'sectionScoringType' => 'required',
-            'sectionRightAnswerPoint' => 'required_if:sectionScoringType,right_or_wrong',
-            'sectionWrongAnswerPoint' => 'required_if:sectionScoringType,right_or_wrong',
-            'sectionTotalOptions' => 'required|numeric',
+            'name' => 'required',
+            'description' => 'nullable',
+            'passingScore' => 'required|numeric',
+            'scoringType' => 'required',
+            'rightAnswerPoint' => 'required_if:scoringType,right_or_wrong',
+            'wrongAnswerPoint' => 'required_if:scoringType,right_or_wrong',
+            'totalOptions' => 'required|numeric',
         ]);
 
-        Section::where('id', $this->sectionId)->update([
-            'name' => $this->sectionName,
-            'description'=> $this->sectionDescription,
-            'passing_score' => $this->sectionPassingScore,
-            'scoring_type' => $this->sectionScoringType,
-            'right_answer_point' => $this->sectionScoringType == "right_or_wrong" ? $this->sectionRightAnswerPoint : null,
-            'wrong_answer_point' => $this->sectionScoringType == "right_or_wrong" ? $this->sectionWrongAnswerPoint : null,
-            'total_options' => $this->sectionTotalOptions
+        Section::where('id', $this->id)->update([
+            'name' => $this->name,
+            'description'=> $this->description,
+            'passing_score' => $this->passingScore,
+            'scoring_type' => $this->scoringType,
+            'right_answer_point' => $this->scoringType == "right_or_wrong" ? $this->rightAnswerPoint : null,
+            'wrong_answer_point' => $this->scoringType == "right_or_wrong" ? $this->wrongAnswerPoint : null,
+            'total_options' => $this->totalOptions
         ]);
 
         $this->closeModal('editSection');
@@ -250,7 +259,7 @@ new class extends Component {
                     </tr>
                     @empty
                     <tr>
-                        <td colspan="4" class="px-6 py-4 whitespace-nowrap">
+                        <td colspan="6" class="px-6 py-4 whitespace-nowrap">
                             <p class="text-center text-sm text-gray-500 dark:text-gray-400">Tidak ada data
                                 tersedia</p>
                         </td>
@@ -310,18 +319,18 @@ new class extends Component {
         <flux:heading size="lg">Tambah Bagian Ujian</flux:heading>
         <form wire:submit="storeSection">
             <div class="space-y-4">
-                <flux:input label="Jenis Ujian" wire:model="sectionName" />
-                <livewire:plugin.text-editor label="Deskripsi" wire:model="sectionDescription" size="xs" />
-                <flux:input type="number" label="Nilai Kelulusan" wire:model="sectionPassingScore" />
-                <flux:select label="Cara Penilaian" wire:model.live="sectionScoringType" placeholder="Pilih cara penilaian...">
+                <flux:input label="Jenis Ujian" wire:model="name" />
+                <livewire:plugin.text-editor label="Deskripsi" wire:model="description" size="xs" />
+                <flux:input type="number" label="Nilai Kelulusan" wire:model="passingScore" />
+                <flux:select label="Cara Penilaian" wire:model.live="scoringType" placeholder="Pilih cara penilaian...">
                     <flux:select.option value="right_or_wrong">Benar/Salah</flux:select.option>
                     <flux:select.option value="point">Point</flux:select.option>
                 </flux:select>
-                @if($sectionScoringType == "right_or_wrong")
-                <flux:input type="number" label="Nilai Benar" wire:model="sectionRightAnswerPoint" />
-                <flux:input type="number" label="Nilai Salah" wire:model="sectionWrongAnswerPoint" />
+                @if($scoringType == "right_or_wrong")
+                <flux:input type="number" label="Nilai Benar" wire:model="rightAnswerPoint" />
+                <flux:input type="number" label="Nilai Salah" wire:model="wrongAnswerPoint" />
                 @endif
-                <flux:select label="Banyak Opsi" wire:model="sectionTotalOptions" placeholder="Pilih banyak opsi jawaban...">
+                <flux:select label="Banyak Opsi" wire:model="totalOptions" placeholder="Pilih banyak opsi jawaban...">
                     <flux:select.option value="3">3</flux:select.option>
                     <flux:select.option value="4">4</flux:select.option>
                     <flux:select.option value="5">5</flux:select.option>
@@ -343,18 +352,18 @@ new class extends Component {
         <flux:heading size="lg">Edit Bagian Ujian</flux:heading>
         <form wire:submit="updateSection">
             <div class="space-y-4">
-                <flux:input label="Jenis Ujian" wire:model="sectionName" />
-                <livewire:plugin.text-editor label="Deskripsi" wire:model="sectionDescription" size="xs" />
-                <flux:input type="number" label="Nilai Kelulusan" wire:model="sectionPassingScore" />
-                <flux:select label="Cara Penilaian" wire:model.live="sectionScoringType" placeholder="Pilih cara penilaian...">
+                <flux:input label="Jenis Ujian" wire:model="name" />
+                <livewire:plugin.text-editor label="Deskripsi" wire:model="description" size="xs" />
+                <flux:input type="number" label="Nilai Kelulusan" wire:model="passingScore" />
+                <flux:select label="Cara Penilaian" wire:model.live="scoringType" placeholder="Pilih cara penilaian...">
                     <flux:select.option value="right_or_wrong">Benar/Salah</flux:select.option>
                     <flux:select.option value="point">Point</flux:select.option>
                 </flux:select>
-                @if($sectionScoringType == "right_or_wrong")
-                <flux:input type="number" label="Nilai Benar" wire:model="sectionRightAnswerPoint" />
-                <flux:input type="number" label="Nilai Salah" wire:model="sectionWrongAnswerPoint" />
+                @if($scoringType == "right_or_wrong")
+                <flux:input type="number" label="Nilai Benar" wire:model="rightAnswerPoint" />
+                <flux:input type="number" label="Nilai Salah" wire:model="wrongAnswerPoint" />
                 @endif
-                <flux:select label="Banyak Opsi" wire:model="sectionTotalOptions" placeholder="Pilih banyak opsi jawaban...">
+                <flux:select label="Banyak Opsi" wire:model="totalOptions" placeholder="Pilih banyak opsi jawaban...">
                     <flux:select.option value="3">3</flux:select.option>
                     <flux:select.option value="4">4</flux:select.option>
                     <flux:select.option value="5">5</flux:select.option>

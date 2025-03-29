@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('sections', function (Blueprint $table) {
             $table->id();
-            $table->foreignIdFor(\App\Models\Type::class);
+            $table->foreignIdFor(\App\Models\Type::class)->constrained()->cascadeOnDelete();
             $table->string('name');
             $table->text('description')->nullable();
             $table->enum('scoring_type', ['right_or_wrong', 'point'])->default('right_or_wrong');

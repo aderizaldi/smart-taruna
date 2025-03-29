@@ -70,6 +70,7 @@ new class extends Component {
             "image" => $this->image ? save_as_webp($this->image, 'image/package/') : null
         ]);
 
+        $this->reset(['name', 'description', 'image']);
         $this->closeModal('create');
         $this->dispatch('showToast', 'success', 'Paket Ujian berhasil ditambahkan.');
     }

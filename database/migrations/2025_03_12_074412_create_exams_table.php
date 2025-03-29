@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('exams', function (Blueprint $table) {
             $table->id();
             $table->foreignIdFor(\App\Models\User::class)->nullable();
-            $table->foreignIdFor(\App\Models\Type::class);
+            $table->foreignIdFor(\App\Models\Type::class)->constrained()->cascadeOnDelete();
             $table->string('name');
             $table->text('description')->nullable();
             $table->string('image')->nullable();

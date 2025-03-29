@@ -107,7 +107,7 @@ new class extends Component {
                         <td class="px-6 py-4 whitespace-nowrap">{{ $type->passing_score }}</td>
                         <td class="px-6 py-4 whitespace-nowrap">{{ implode(', ', $type->sections()->pluck('name')->all()) }}</td>
                         <td class="px-6 py-4 text-right">
-                            <flux:button type="button" href="{{ route('dashboard.detail-exam-type', $type->id) }}" size="xs">Detail
+                            <flux:button type="button" href="{{ route('dashboard.exam-type-detail', $type->id) }}" size="xs">Detail
                             </flux:button>
                         </td>
                     </tr>

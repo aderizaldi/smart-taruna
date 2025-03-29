@@ -13,8 +13,8 @@ return new class extends Migration
     {
         Schema::create('questions', function (Blueprint $table) {
             $table->id();
-            $table->foreignIdFor(\App\Models\Exam::class)->cascadeOnDelete();
-            $table->foreignIdFor(\App\Models\Section::class)->cascadeOnDelete();
+            $table->foreignIdFor(\App\Models\Exam::class)->constrained()->cascadeOnDelete();
+            $table->foreignIdFor(\App\Models\Section::class)->constrained()->cascadeOnDelete();
             $table->text('question_text')->nullable();
             $table->string('image')->nullable();
             $table->text('explanation_text')->nullable();

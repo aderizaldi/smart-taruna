@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('answer_choices', function (Blueprint $table) {
             $table->id();
-            $table->foreignIdFor(\App\Models\Question::class)->cascadeOnDelete();
+            $table->foreignIdFor(\App\Models\Question::class)->constrained()->cascadeOnDelete();
             $table->text('choice_text')->nullable();
             $table->string('image')->nullable();
             $table->boolean('is_correct')->nullable(); //if section type is right_or_wrong
