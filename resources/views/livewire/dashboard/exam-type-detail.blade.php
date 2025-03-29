@@ -164,21 +164,13 @@ new class extends Component {
         $this->validate([
             'name' => 'required',
             'description' => 'nullable',
-            'passingScore' => 'required|numeric',
-            'scoringType' => 'required',
-            'rightAnswerPoint' => 'required_if:scoringType,right_or_wrong',
-            'wrongAnswerPoint' => 'required_if:scoringType,right_or_wrong',
-            'totalOptions' => 'required|numeric',
+            'passingScore' => 'required|numeric', 
         ]);
 
         Section::where('id', $this->id)->update([
             'name' => $this->name,
             'description'=> $this->description,
             'passing_score' => $this->passingScore,
-            'scoring_type' => $this->scoringType,
-            'right_answer_point' => $this->scoringType == "right_or_wrong" ? $this->rightAnswerPoint : null,
-            'wrong_answer_point' => $this->scoringType == "right_or_wrong" ? $this->wrongAnswerPoint : null,
-            'total_options' => $this->totalOptions
         ]);
 
         $this->resetForm();
@@ -371,15 +363,15 @@ new class extends Component {
                 <flux:input label="Jenis Ujian" wire:model="name" />
                 <livewire:plugin.text-editor label="Deskripsi" wire:model="description" size="xs" />
                 <flux:input type="number" label="Nilai Kelulusan" wire:model="passingScore" />
-                <flux:select label="Cara Penilaian" wire:model.live="scoringType" placeholder="Pilih cara penilaian...">
+                <flux:select label="Cara Penilaian" wire:model.live="scoringType" placeholder="Pilih cara penilaian..." disabled>
                     <flux:select.option value="right_or_wrong">Benar/Salah</flux:select.option>
                     <flux:select.option value="point">Point</flux:select.option>
                 </flux:select>
                 @if($scoringType == "right_or_wrong")
-                <flux:input type="number" label="Nilai Benar" wire:model="rightAnswerPoint" />
-                <flux:input type="number" label="Nilai Salah" wire:model="wrongAnswerPoint" />
+                <flux:input type="number" label="Nilai Benar" wire:model="rightAnswerPoint" disabled />
+                <flux:input type="number" label="Nilai Salah" wire:model="wrongAnswerPoint" disabled />
                 @endif
-                <flux:select label="Banyak Opsi" wire:model="totalOptions" placeholder="Pilih banyak opsi jawaban...">
+                <flux:select label="Banyak Opsi" wire:model="totalOptions" placeholder="Pilih banyak opsi jawaban..." disabled>
                     <flux:select.option value="3">3</flux:select.option>
                     <flux:select.option value="4">4</flux:select.option>
                     <flux:select.option value="5">5</flux:select.option>
