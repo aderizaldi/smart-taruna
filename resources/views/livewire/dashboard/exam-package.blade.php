@@ -25,20 +25,26 @@ new class extends Component {
     ];
 
      public function openModal($modal, $id = null) {
-        if($modal == 'delete') {
+        if($modal == 'delete' && $id) {
             $this->id = $id;
-        } else if($modal == 'edit') {
+        } else if($modal == 'edit' && $id) {
             $package = Package::find($id);
             $this->id = $package->id;
             $this->name = $package->name;
             $this->description = $package->description;
             $this->image = $package->image;
+            $this->dispatch('resetEditor', $this->description);
         }
         $this->modal[$modal] = true;
      }
 
      public function closeModal($modal) {
         $this->modal[$modal] = false;
+     }
+
+     public function resetForm(){
+         $this->reset(['name', 'description', 'image']);
+         $this->dispatch('resetEditor', $this->description);
      }
 
     public function getPackages()
@@ -70,7 +76,7 @@ new class extends Component {
             "image" => $this->image ? save_as_webp($this->image, 'image/package/') : null
         ]);
 
-        $this->reset(['name', 'description', 'image']);
+        $this->resetForm();
         $this->closeModal('create');
         $this->dispatch('showToast', 'success', 'Paket Ujian berhasil ditambahkan.');
     }
@@ -97,6 +103,7 @@ new class extends Component {
             "image" => $image
         ]);
 
+        $this->resetForm();
         $this->closeModal('edit');
         $this->dispatch('showToast', 'success', 'Paket Ujian berhasil diperbarui.');
     }
@@ -210,7 +217,7 @@ new class extends Component {
     </flux:modal>
 
     {{-- modal edit paket ujian --}}
-    <flux:modal wire:model="modal.edit" class="min-w-sm md:min-w-xl space-y-4">
+    <flux:modal wire:model="modal.edit" class="min-w-sm md:min-w-xl space-y-4" @close="resetForm" @cancel="resetForm">
         <flux:heading size="lg">Edit Paket Ujian</flux:heading>
         <form wire:submit="update">
             <div class="space-y-4">

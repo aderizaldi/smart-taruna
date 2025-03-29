@@ -56,6 +56,11 @@ new class extends Component {
         $this->isModalOpen = false;
     }
 
+    public function resetForm() {
+        $this->reset(['typeId', 'name', 'description', 'image', 'time']);
+        $this->dispatch('resetEditor', $this->description);
+    }
+
     public function store() {
         $this->validate([
             'packageId' => 'required|exists:packages,id',
@@ -76,8 +81,8 @@ new class extends Component {
             "time" => $this->time
         ]); 
 
+        $this->resetForm();
         $this->closeModal();
-        $this->reset(['typeId', 'name', 'description', 'image', 'time']);
         $this->dispatch('showToast', 'success', 'Soal Ujian berhasil ditambahkan.');
     }
 

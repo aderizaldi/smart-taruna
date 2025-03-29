@@ -41,6 +41,11 @@ new class extends Component {
         $this->isModalOpen = false;
     }
 
+    public function resetForm() {
+        $this->reset(['name', 'description', 'passingScore']);
+        $this->dispatch('resetEditor', $this->description);
+    }
+
     public function store() {
         $this->validate([
             'name' => 'required',
@@ -54,8 +59,8 @@ new class extends Component {
             'passing_score' => $this->passingScore,
         ]); 
 
+        $this->resetForm();
         $this->closeModal();
-        $this->reset(['name', 'description', 'passingScore']);
         $this->dispatch('showToast', 'success', 'Jenis Ujian berhasil ditambahkan.');
     }
 

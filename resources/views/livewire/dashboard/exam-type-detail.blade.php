@@ -51,12 +51,26 @@ new class extends Component {
             $this->rightAnswerPoint = $section->right_answer_point;
             $this->wrongAnswerPoint = $section->wrong_answer_point;
             $this->totalOptions = $section->total_options;
+            $this->dispatch('resetEditor', $this->description);
         }
         $this->modal[$modal] = true;
     }
 
     public function closeModal($modal) {
         $this->modal[$modal] = false;
+    }
+
+    public function resetForm(){
+        $this->reset([
+            'name',
+            'description',
+            'passingScore',
+            'scoringType',
+            'rightAnswerPoint',
+            'wrongAnswerPoint',
+            'totalOptions',
+        ]);
+        $this->dispatch('resetEditor', $this->description);
     }
 
     public function deleteType(){
@@ -126,15 +140,7 @@ new class extends Component {
             'total_options' => $this->totalOptions
      ]);
 
-        $this->reset([
-            'name',
-            'description',
-            'passingScore',
-            'scoringType',
-            'rightAnswerPoint',
-            'wrongAnswerPoint',
-            'totalOptions',
-        ]);
+        $this->resetForm();
         $this->closeModal('createSection');
         $this->dispatch('showToast', 'success', 'Section berhasil ditambahkan.');
      }
@@ -166,6 +172,7 @@ new class extends Component {
             'total_options' => $this->totalOptions
         ]);
 
+        $this->resetForm();
         $this->closeModal('editSection');
         $this->dispatch('showToast', 'success', 'Section berhasil diperbarui.');
      }
