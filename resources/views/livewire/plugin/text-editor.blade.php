@@ -63,7 +63,7 @@ new class extends Component {
                         ]
                     }
                 });
-                
+
                 quillEditor.on('text-change', function () {
                     $wire.set('content', quillEditor.root.innerHTML);
                 });
@@ -78,7 +78,7 @@ new class extends Component {
                 });
             ">
         <div class="text-sm font-medium select-none text-zinc-800 dark:text-white mb-1">{{ $label }}</div>
-        <div x-ref="quillContainer" style="min-height: {{ $sizes[$size] }}">{{ $content }}</div>
+        <div x-ref="quillContainer" style="min-height: {{ $sizes[$size] }}">{!! $content !!}</div>
     </div>
     <input type="hidden" wire:model.live="content">
 </div>
