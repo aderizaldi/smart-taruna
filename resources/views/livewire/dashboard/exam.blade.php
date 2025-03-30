@@ -86,6 +86,10 @@ new class extends Component {
         $this->dispatch('showToast', 'success', 'Soal Ujian berhasil ditambahkan.');
     }
 
+    public function removeImage() {
+        $this->image = null;
+    }
+
     public function with() : array {
         return [
             'exams' => $this->getExams(),
@@ -196,7 +200,17 @@ new class extends Component {
                     </flux:input.group>
                     <flux:error name="time" />
                 </flux:field>
-                <flux:input type="file" label="Gambar" wire:model="image" class="overflow-hidden" accept="image/*" description:trailing="Gambar maksimal 2MB" />
+                <flux:field>
+                    <flux:label>Gambar</flux:label>
+                    @if($image)
+                    <div class="flex gap-2 items-center">
+                        <img src="{{ is_string($image) ? asset('storage/' . $image) : $image->temporaryUrl() }}" alt="{{ $name }}" class="w-16 h-16 object-cover rounded-lg">
+                        <flux:button type="button" variant="danger" wire:click="removeImage" size="xs">Hapus Gambar</flux:button>
+                    </div>
+                    @endif
+                    <flux:input type="file" wire:model="image" class="overflow-hidden" accept="image/*" description:trailing="Gambar maksimal 2MB" />
+                    <flux:error name="image" />
+                </flux:field>
             </div>
             <div class="flex gap-2 mt-4">
                 <flux:spacer />

@@ -14,9 +14,9 @@ new class extends Component {
     public $modal = [
         'editType' => false,
         'deleteType' => false,
-        'createSection' => false,
-        'editSection' => false,
-        'deleteSection' => false
+        'create' => false,
+        'edit' => false,
+        'delete' => false
     ];
 
     public $id = null;
@@ -41,9 +41,9 @@ new class extends Component {
     }
     
     public function openModal($modal, $id = null) {
-        if($modal == 'deleteSection') {
+        if($modal == 'delete') {
             $this->id = $id;
-        } else if($modal == 'editSection') {
+        } else if($modal == 'edit') {
             $section = Section::find($id);
             $this->id = $section->id;
             $this->name = $section->name;
@@ -127,7 +127,7 @@ new class extends Component {
         ];
      }
 
-     public function storeSection(){
+     public function store(){
         $this->validate([
             'name' => 'required',
             'description' => 'nullable',
@@ -150,17 +150,17 @@ new class extends Component {
      ]);
 
         $this->resetForm();
-        $this->closeModal('createSection');
+        $this->closeModal('create');
         $this->dispatch('showToast', 'success', 'Section berhasil ditambahkan.');
      }
 
-     public function deleteSection(){
+     public function delete(){
         Section::where('id', $this->id)->delete();
-        $this->closeModal('deleteSection');
+        $this->closeModal('delete');
         $this->dispatch('showToast', 'success', 'Section berhasil dihapus.');
      }
 
-     public function updateSection(){
+     public function update(){
         $this->validate([
             'name' => 'required',
             'description' => 'nullable',
@@ -174,7 +174,7 @@ new class extends Component {
         ]);
 
         $this->resetForm();
-        $this->closeModal('editSection');
+        $this->closeModal('edit');
         $this->dispatch('showToast', 'success', 'Section berhasil diperbarui.');
      }
 }; ?>
@@ -216,7 +216,7 @@ new class extends Component {
     <flux:separator />
 
     <div class="flex justify-end items-center">
-        <flux:button type="button" variant="primary" wire:click="openModal('createSection')">Tambah Bagian Ujian</flux:button>
+        <flux:button type="button" variant="primary" wire:click="openModal('create')">Tambah Bagian Ujian</flux:button>
     </div>
     <div class="overflow-hidden rounded-xl border border-neutral-200 dark:border-neutral-700 p-5">
         <div class="flex justify-between items-center mb-4">
@@ -259,9 +259,9 @@ new class extends Component {
                         </td>
                         <td class="px-6 py-4 whitespace-nowrap">{{ $section->total_options }}</td>
                         <td class="px-6 py-4 text-right">
-                            <flux:button type="button" wire:click="openModal('editSection', {{ $section->id }})" size="xs">Edit
+                            <flux:button type="button" wire:click="openModal('edit', {{ $section->id }})" size="xs">Edit
                             </flux:button>
-                            <flux:button type="button" wire:click="openModal('deleteSection', {{ $section->id }})" variant="danger" size="xs">
+                            <flux:button type="button" wire:click="openModal('delete', {{ $section->id }})" variant="danger" size="xs">
                                 Hapus</flux:button>
                         </td>
                     </tr>
@@ -323,9 +323,9 @@ new class extends Component {
     </flux:modal>
 
     {{-- modal tambah bagian ujian --}}
-    <flux:modal wire:model="modal.createSection" class="min-w-sm md:min-w-xl space-y-4">
+    <flux:modal wire:model="modal.create" class="min-w-sm md:min-w-xl space-y-4">
         <flux:heading size="lg">Tambah Bagian Ujian</flux:heading>
-        <form wire:submit="storeSection">
+        <form wire:submit="store">
             <div class="space-y-4">
                 <flux:input label="Jenis Ujian" wire:model="name" />
                 <livewire:plugin.text-editor label="Deskripsi" wire:model="description" size="xs" />
@@ -356,9 +356,9 @@ new class extends Component {
     </flux:modal>
 
     {{-- modal edit bagian ujian --}}
-    <flux:modal wire:model="modal.editSection" class="min-w-sm md:min-w-xl space-y-4">
+    <flux:modal wire:model="modal.edit" class="min-w-sm md:min-w-xl space-y-4">
         <flux:heading size="lg">Edit Bagian Ujian</flux:heading>
-        <form wire:submit="updateSection">
+        <form wire:submit="update">
             <div class="space-y-4">
                 <flux:input label="Jenis Ujian" wire:model="name" />
                 <livewire:plugin.text-editor label="Deskripsi" wire:model="description" size="xs" />
@@ -389,7 +389,7 @@ new class extends Component {
     </flux:modal>
 
     {{-- modal hapus bagian ujian --}}
-    <flux:modal wire:model="modal.deleteSection" class="min-w-sm">
+    <flux:modal wire:model="modal.delete" class="min-w-sm">
         <div class="space-y-4">
             <div>
                 <flux:heading size="lg">Hapus Bagian Ujian?</flux:heading>
@@ -403,7 +403,7 @@ new class extends Component {
                 <flux:modal.close>
                     <flux:button variant="ghost">Batal</flux:button>
                 </flux:modal.close>
-                <flux:button variant="danger" wire:click="deleteSection">Hapus</flux:button>
+                <flux:button variant="danger" wire:click="delete">Hapus</flux:button>
             </div>
         </div>
     </flux:modal>

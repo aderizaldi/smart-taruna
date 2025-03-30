@@ -28,9 +28,18 @@ new class extends Component {
     public $sections;
     public $selectedSection;
 
+    public $questionText = '';
+    public $image = null;
+    public $explanationText = '';
+    public $explanationImage = null;
+
+    public $answers = [];
+    public $correctAnswer = 0; //index
+
     public $modal =[
         'editExam' => false,
-        'deleteExam' => false
+        'deleteExam' => false,
+        'create' => false,
     ];
 
     public function mount(Exam $exam)
@@ -52,6 +61,12 @@ new class extends Component {
 
         $this->sections = $exam->type->sections;
         $this->selectedSection = $exam->type->sections->first();
+        $this->answers = array_fill(0, $this->selectedSection->total_options, [
+            'choiceText' => '',
+            'image' => null,
+            'is_correct' => null,
+            'point' => null,
+        ]);
     }
 
     public function updateStatus() {
@@ -131,10 +146,28 @@ new class extends Component {
     public function selectSection($sectionId)
     {
         $this->selectedSection = Section::find($sectionId);
+        // make question empty by total_options
+        $this->answers = array_fill(0, $this->selectedSection->total_options, [
+            'choiceText' => '',
+            'image' => null,
+            'is_correct' => null,
+            'point' => null,
+        ]);
     }
 
-    public function removeImageExam() {
-        $this->examImage = null;
+    public function removeImage($image) {
+        $this->image = null;
+    }
+
+    public function removeImageAnswer($index)
+    {
+        if (isset($this->answers[$index])) {
+            $this->answers[$index]['image'] = null; 
+        }
+    }
+
+    public function store(){
+        
     }
 }; ?>
 
@@ -215,7 +248,7 @@ new class extends Component {
 
         <div class="flex flex-col justify-between items-center mb-4 mt-4 gap-2">
             <h2 class="text-lg font-semibold">Soal {{ $selectedSection->name }}</h2>
-            <flux:button type="button" variant="primary" wire:click="openModal('addQuestion')">Tambah Soal</flux:button>
+            <flux:button type="button" variant="primary" wire:click="openModal('create')">Tambah Soal</flux:button>
         </div>
     </div>
     @else
@@ -255,7 +288,7 @@ new class extends Component {
                     @if($examImage)
                     <div class="flex gap-2 items-center">
                         <img src="{{ is_string($examImage) ? asset('storage/' . $examImage) : $examImage->temporaryUrl() }}" alt="{{ $examName }}" class="w-16 h-16 object-cover rounded-lg">
-                        <flux:button type="button" variant="danger" wire:click="removeImageExam" size="xs">Hapus Gambar</flux:button>
+                        <flux:button type="button" variant="danger" wire:click="removeImage('examImage')" size="xs">Hapus Gambar</flux:button>
                     </div>
                     @endif
                     <flux:input type="file" wire:model="examImage" class="overflow-hidden" accept="image/*" description:trailing="Gambar maksimal 2MB" />
@@ -290,5 +323,80 @@ new class extends Component {
                 <flux:button variant="danger" wire:click="deleteExam">Hapus</flux:button>
             </div>
         </div>
+    </flux:modal>
+
+    {{-- Modal Tambah Soal --}}
+    <flux:modal wire:model="modal.create" class="min-w-sm md:min-w-xl lg:min-w-4xl xl:6xl space-y-4">
+        <flux:heading size="lg">Tambah Pertanyaan</flux:heading>
+        <form wire:submit="store">
+            {{-- Pertanyaan --}}
+            <div class="space-y-4">
+                <div class="text-center font-lg font-bold">Pertanyaan</div>
+                <flux:field>
+                    <flux:label>Gambar</flux:label>
+                    @if($image)
+                    <div class="flex gap-2 items-center">
+                        <img src="{{ is_string($image) ? asset('storage/' . $image) : $image->temporaryUrl() }}" alt="Pertanyaan" class="w-24 rounded-lg">
+                        <flux:button type="button" variant="danger" wire:click="removeImage('image')" size="xs">Hapus Gambar</flux:button>
+                    </div>
+                    @endif
+                    <flux:input type="file" wire:model="image" class="overflow-hidden" accept="image/*" description:trailing="Gambar maksimal 2MB" />
+                    <flux:error name="image" />
+                </flux:field>
+                <livewire:plugin.text-editor label="Teks Pertanyaan" wire:model="questionText" size="sm" />
+            </div>
+            {{-- Jawaban --}}
+            <div class="space-y-4 mt-6">
+                <div class="text-center font-lg font-bold">Pilihan Jawaban</div>
+                @foreach(range(0, $selectedSection->total_options - 1) as $i)
+                {{-- separator if not first --}}
+                @if($i != 0)
+                <flux:separator />
+                @endif
+                <flux:field>
+                    <flux:label>Gambar Pilihan {{ chr(65 + $i) }}</flux:label>
+                    @if($answers[$i]['image'])
+                    <div class="flex gap-2 items-center">
+                        <img src="{{ is_string($answers[$i]['image']) ? asset('storage/' . $answers[$i]['image']) : $answers[$i]['image']->temporaryUrl() }}" alt="Penjelasan" class="w-24 rounded-lg">
+                        <flux:button type="button" variant="danger" wire:click="removeImageAnswer({{ $i }})" size="xs">Hapus Gambar</flux:button>
+                    </div>
+                    @endif
+                    <flux:input type="file" wire:model="answers.{{ $i }}.image" class="overflow-hidden" accept="image/*" description:trailing="Gambar maksimal 2MB" />
+                    <flux:error name="answers.{{ $i }}.image" />
+                </flux:field>
+                <livewire:plugin.text-editor label="Teks Pilihan {{ chr(65 + $i) }}" wire:model="answers.{{ $i }}.choiceText" size="xs" wire:key="answer-{{ $i }}" />
+                @if($selectedSection->scoring_type == 'point')
+                <flux:input label="Poin Pilihan {{ chr(65 + $i) }}" wire:model="answers.{{ $i }}.point" type='number' />
+                @elseif($selectedSection->scoring_type == 'right_or_wrong')
+                <flux:radio.group wire:model="correctAnswer">
+                    <flux:radio value="{{ $i }}" label="{{ chr(65 + $i) }} Jawaban Benar" />
+                </flux:radio.group>
+                @endif
+                @endforeach
+            </div>
+            {{-- Penjelasan --}}
+            <div class="space-y-4 mt-6">
+                <div class="text-center font-lg font-bold">Penjelasan</div>
+                <flux:field>
+                    <flux:label>Gambar</flux:label>
+                    @if($explanationImage)
+                    <div class="flex gap-2 items-center">
+                        <img src="{{ is_string($explanationImage) ? asset('storage/' . $explanationImage) : $explanationImage->temporaryUrl() }}" alt="Penjelasan" class="w-24 rounded-lg">
+                        <flux:button type="button" variant="danger" wire:click="removeImage('explanationImage')" size="xs">Hapus Gambar</flux:button>
+                    </div>
+                    @endif
+                    <flux:input type="file" wire:model="explanationImage" class="overflow-hidden" accept="image/*" description:trailing="Gambar maksimal 2MB" />
+                    <flux:error name="explanationImage" />
+                </flux:field>
+                <livewire:plugin.text-editor label="Teks Penjelasan" wire:model="explanationText" size="sm" />
+            </div>
+            <div class="flex gap-2 mt-4">
+                <flux:spacer />
+                <flux:modal.close>
+                    <flux:button variant="ghost">Batal</flux:button>
+                </flux:modal.close>
+                <flux:button type="submit" variant="primary">Simpan</flux:button>
+            </div>
+        </form>
     </flux:modal>
 </div>

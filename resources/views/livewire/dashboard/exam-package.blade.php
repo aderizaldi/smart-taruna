@@ -212,8 +212,17 @@ new class extends Component {
             <div class="space-y-4">
                 <flux:input label="Nama Paket" wire:model="name" />
                 <livewire:plugin.text-editor label="Deskripsi" wire:model="description" size="xs" />
-                <flux:input type="file" label="Gambar" wire:model="image" class="overflow-hidden" accept="image/*" description:trailing="Gambar maksimal 2MB" />
-
+                <flux:field>
+                    <flux:label>Gambar</flux:label>
+                    @if($image)
+                    <div class="flex gap-2 items-center">
+                        <img src="{{ is_string($image) ? asset('storage/' . $image) : $image->temporaryUrl() }}" alt="{{ $name }}" class="w-16 h-16 object-cover rounded-lg">
+                        <flux:button type="button" variant="danger" wire:click="removeImage" size="xs">Hapus Gambar</flux:button>
+                    </div>
+                    @endif
+                    <flux:input type="file" wire:model="image" class="overflow-hidden" accept="image/*" description:trailing="Gambar maksimal 2MB" />
+                    <flux:error name="image" />
+                </flux:field>
             </div>
             <div class="flex gap-2 mt-4">
                 <flux:spacer />
