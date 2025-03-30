@@ -96,6 +96,21 @@ new class extends Component {
         $this->dispatch('resetEditor', $this->examDescription);
     }
 
+    public function resetForm() {
+        $this->questionText = '';
+        $this->image = null;
+        $this->explanationText = '';
+        $this->explanationImage = null;
+        $this->answers = array_fill(0, $this->selectedSection->total_options, [
+            'choiceText' => '',
+            'image' => null,
+            'is_correct' => null,
+            'point' => null,
+        ]);
+        $this->correctAnswer = 0;
+        $this->dispatch('resetEditor', $this->explanationText);
+    }
+
     public function updateExam() {
         $this->validate([
             'examPackageId' => 'required|exists:packages,id',
@@ -147,12 +162,7 @@ new class extends Component {
     {
         $this->selectedSection = Section::find($sectionId);
         // make question empty by total_options
-        $this->answers = array_fill(0, $this->selectedSection->total_options, [
-            'choiceText' => '',
-            'image' => null,
-            'is_correct' => null,
-            'point' => null,
-        ]);
+        $this->resetForm();
     }
 
     public function removeImage($image) {
