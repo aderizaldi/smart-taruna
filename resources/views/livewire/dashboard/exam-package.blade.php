@@ -91,12 +91,14 @@ new class extends Component {
 
         $package = Package::find($this->id);
         $image = $this->image;
-        
-        if($this->image instanceof \Livewire\Features\SupportFileUploads\TemporaryUploadedFile){
+
+        if($this->image != $package->image){
             if($package->image){
                 Storage::delete($package->image);
             }
-            $image = save_as_webp($this->image, 'image/package/');
+            if($this->image instanceof \Livewire\Features\SupportFileUploads\TemporaryUploadedFile){
+                $image = save_as_webp($this->image, 'image/package/');
+            }
         }
 
         $package->update([

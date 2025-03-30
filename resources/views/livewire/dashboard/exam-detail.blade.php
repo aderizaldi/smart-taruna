@@ -93,11 +93,13 @@ new class extends Component {
         $exam = Exam::find($this->examId);
         $examImage = $this->examImage;
 
-        if($this->examImage instanceof \Livewire\Features\SupportFileUploads\TemporaryUploadedFile){
+        if($this->examImage != $exam->image){
             if($exam->image){
                 Storage::delete($exam->image);
             }
-            $examImage = save_as_webp($this->examImage, 'image/exam/');
+            if($this->examImage instanceof \Livewire\Features\SupportFileUploads\TemporaryUploadedFile){
+                $examImage = save_as_webp($this->examImage, 'image/exam/');
+            }
         }
 
         $exam->update([
