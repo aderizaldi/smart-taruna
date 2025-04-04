@@ -56,8 +56,42 @@ new class extends Component {
     {{-- Tab Panel --}}
     <flux:container>
         @foreach ($exams as $exam)
-        <div x-show="selectedTab == {{ $exam->type_id }}" class="p-4 border rounded-lg bg-white">
-            <h2 class="text-lg font-bold text-gray-700">{{ $exam->name }}</h2>
+        <div x-show="selectedTab == {{ $exam->type_id }}" class="p-4 border shadow-md rounded-lg w-full md:flex justify-start gap-5 items-start mb-5">
+            <img src="{{ asset('storage/'. $exam->image) }}" alt="{{ $exam->name }}" class="w-full md:w-40 h-40 rounded-lg object-cover">
+            <flux:separator vertical />
+            <div class="flex flex-col flex-1 mt-3 md:mt-0 gap-2 md:h-40">
+                <flux:heading size="xl" class="font-bold!">{{ $exam->name }}</flux:heading>
+                <flux:text variant="subtle">
+                    Deskripsi Soal :
+                </flux:text>
+                <flux:text class="overflow-hidden text-ellipsis line-clamp-3" variant="strong">{!! $exam->description !!}</flux:text>
+                <div class="flex items-center mt-auto gap-2">
+                    <flux:text variant="subtle">
+                        Waktu Pengerjaan:
+                    </flux:text>
+                    <div class="flex items-center gap-2 font-bold">
+                        <flux:icon.clock variant="mini"></flux:icon.clock>{{ $exam->time }} Menit
+                    </div>
+                </div>
+            </div>
+            <div class="flex flex-col justify-start md:justify-between gap-3 md:gap-0 md:w-1/4 md:h-40 mt-3 md:mt-0">
+                <div class="flex items-center gap-2 mb-3">
+                    <flux:text variant="subtle">
+                        Status Soal:
+                    </flux:text>
+                    <flux:badge size="lg" class="px-5 gap-3" color="{{ $exam->is_active ? 'emerald' : 'red' }}">
+                        {{ $exam->is_active ? 'Aktif' : 'Tidak Aktif' }}
+                        @if($exam->is_active)
+                        <flux:icon.lock-open variant="mini"></flux:icon.lock-open>
+                        @else
+                        <flux:icon.lock-closed variant="mini"></flux:icon.lock-closed>
+                        @endif
+                    </flux:badge>
+                </div>
+                @if($exam->is_active)
+                <flux:button icon="pencil-square" icon-trailing="arrow-right" variant="primary">Mulai Ujian</flux:button>
+                @endif
+            </div>
         </div>
         @endforeach
     </flux:container>

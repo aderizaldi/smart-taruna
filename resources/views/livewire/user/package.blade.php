@@ -38,7 +38,7 @@ new class extends Component {
 
     <flux:container class="grid md:grid-cols-4 gap-3 justify-items-center">
         @foreach ($packages as $package)
-        <div class="w-4/5 md:w-4/5 h-[45vh] bg-white rounded-xl border shadow-md flex flex-col hover:bg-gray-100 transition-all duration-300 ease-in-out">
+        <div class="w-4/5 md:w-4/5 h-[45vh] bg-white rounded-xl border shadow-md flex flex-col">
             <img src="{{ $package->image ? asset('storage/'. $package->image) : asset('assets/default.png') }}" alt="{{ $package->name }}" class="object-cover w-full h-1/2 rounded-t-xl">
             <div class="px-3 py-2 text-center flex flex-col gap-3 h-full justify-between">
                 <p class="font-bold text-lg text-center">{{ $package->name }}</p>

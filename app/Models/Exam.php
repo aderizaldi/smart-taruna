@@ -18,6 +18,11 @@ class Exam extends Model
         return $this->hasMany(Question::class);
     }
 
+    public function user()
+    {
+        return $this->belongsTo(User::class);
+    }
+
     public function user_exams()
     {
         return $this->hasMany(UserExam::class);
