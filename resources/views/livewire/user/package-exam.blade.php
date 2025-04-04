@@ -6,10 +6,14 @@ use App\Models\Type;
 new class extends Component {
     public $selectedTab;
     public $packageId;
+    public $examId = 0;
+    public $examName;
+    public $comfirmingStartExam = false;
 
     public function mount($packageId)
     {
         $this->packageId = $packageId;
+        $this->comfirmingStartExam = false;
         $this->selectedTab = Exam::where('package_id', $this->packageId)->first()?->type_id ?? null;
     }
 
@@ -27,11 +31,20 @@ new class extends Component {
         return Type::whereIn('id', $uniqueTypeIdsArray)->get();
     }
 
+    public function startExam($id)
+    {
+        $this->examId = $id;
+        $this->examName = Exam::find($id)->name;
+        $this->comfirmingStartExam = true;
+    }
+
     public function with(): array {
         return [
             'exams' => $this->getExams(),
             'types' => $this->getTypes(),
             'selectedTab' => $this->selectedTab,
+            'packageId' => $this->packageId,
+            'examId' => $this->examId,
         ];
     }
 };
@@ -89,10 +102,32 @@ new class extends Component {
                     </flux:badge>
                 </div>
                 @if($exam->is_active)
-                <flux:button icon="pencil-square" icon-trailing="arrow-right" variant="primary">Mulai Ujian</flux:button>
+                <flux:button icon="pencil-square" icon-trailing="arrow-right" variant="primary" wire:click="startExam({{ $exam->id }})">Mulai Ujian</flux:button>
                 @endif
             </div>
         </div>
         @endforeach
     </flux:container>
+
+    <!-- Modal Konfirmasi Mulai Ujian -->
+    <flux:modal wire:model="comfirmingStartExam" class="min-w-sm">
+        <div class="space-y-6">
+            <div>
+                <flux:heading size="lg">Mulai Ujian {{ $examName }}</flux:heading>
+
+                <flux:subheading>
+                    <p class="font-bold">Baca Soal dengan Teliti Sebelum Menjawab!</p>
+                    <p class="font-bold">Perhatikan Juga Waktu Pengerjaan Soalnya.</p>
+                </flux:subheading>
+            </div>
+
+            <div class="flex gap-2">
+                <flux:spacer />
+                <flux:modal.close>
+                    <flux:button variant="ghost">Batal</flux:button>
+                </flux:modal.close>
+                <flux:button variant="primary" :href="route('user.exam', ['packageId'=>$packageId, 'examId'=>$examId])">Mulai</flux:button>
+            </div>
+        </div>
+    </flux:modal>
 </div>

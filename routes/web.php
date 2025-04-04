@@ -43,6 +43,8 @@ Route::middleware(['auth', 'role:admin'])->group(function () {
 Route::middleware(['auth', 'role:user'])->group(function () {
     Volt::route('user/package', 'user.package')->name('user.package');
     Volt::route('package/{packageId}', 'user.package-exam')->name('user.package-exam');
+    Volt::route('package/{packageId}/exam/{examId}', 'user.exam')->name('user.exam');
+    Volt::route('package/{packageId}/exam/{examId}/result', 'user.exam-result')->name('user.exam-result');
 });
 
 require __DIR__ . '/auth.php';
